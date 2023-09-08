@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 26,
+            "activePatchIndex": 32,
             "patches": [
                 {
                     "date": 1694135862357,
@@ -112,6 +112,30 @@
                 {
                     "date": 1694141188165,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -40,9 +40,9 @@\n \n       expect(category.category_id).toBeUndefined()\n       expect(category.name).toBe('Movie')\n       expect(category.description).toBe('Movie description')\n-      expect(category.is_active).toBeTruthy()\n+      expect(category.is_active).toBeFalsy()\n       expect(category.created_at).toBe(created_at)\n     })\n \n     test('should create a category with name and description', () => {\n@@ -53,9 +53,9 @@\n \n       expect(category.category_id).toBeUndefined()\n       expect(category.name).toBe('Movie')\n       expect(category.description).toBe('Movie description')\n-      expect(category.is_active).toBeFalsy()\n+      expect(category.is_active).toBeTruthy()\n       expect(category.created_at).toBeInstanceOf(Date)\n     })\n   })\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694192544341,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -56,6 +56,20 @@\n       expect(category.description).toBe('Movie description')\n       expect(category.is_active).toBeTruthy()\n       expect(category.created_at).toBeInstanceOf(Date)\n     })\n+    test(\"should change name\", () => {\n+      const category = new Category({\n+        name: \"Movie\"\n+      })\n+      category.changeName(\"other name\")\n+      expect(category.name).toBe(\"other name\")\n+    })\n+    test(\"should change description\", () => {\n+      const category = new Category({\n+        name: \"Movie\"\n+      })\n+      category.changeName(\"other name\")\n+      expect(category.name).toBe(\"other name\")\n+    })\n   })\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694192579396,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -67,9 +67,9 @@\n     test(\"should change description\", () => {\n       const category = new Category({\n         name: \"Movie\"\n       })\n-      category.changeName(\"other name\")\n-      expect(category.name).toBe(\"other name\")\n+      category.changeDescription(\"some description\")\n+      expect(category.name).toBe(\"some description\")\n     })\n   })\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694192667699,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -68,8 +68,8 @@\n       const category = new Category({\n         name: \"Movie\"\n       })\n       category.changeDescription(\"some description\")\n-      expect(category.name).toBe(\"some description\")\n+      expect(category.description).toBe(\"some description\")\n     })\n   })\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694193870276,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -70,6 +70,14 @@\n       })\n       category.changeDescription(\"some description\")\n       expect(category.description).toBe(\"some description\")\n     })\n+\n+    test(\"should activate a category\", () => {\n+      const category = Category.create({\n+        name: \"Movie\"\n+      })\n+      category.changeDescription(\"some description\")\n+      expect(category.description).toBe(\"some description\")\n+    })\n   })\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694193935937,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -73,11 +73,12 @@\n     })\n \n     test(\"should activate a category\", () => {\n       const category = Category.create({\n-        name: \"Movie\"\n+        name: \"Filmes\",\n+        is_active: false\n       })\n-      category.changeDescription(\"some description\")\n-      expect(category.description).toBe(\"some description\")\n+      category.activate()\n+      expect(category.is_active).toBe(true)\n     })\n   })\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694193999905,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -79,6 +79,15 @@\n       })\n       category.activate()\n       expect(category.is_active).toBe(true)\n     })\n+\n+    test(\"should disable a category\", () => {\n+      const category = Category.create({\n+        name: \"Filmes\",\n+        is_active: false\n+      })\n+      category.deactivate()\n+      expect(category.is_active).toBe(false)\n+    })\n   })\n })\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1694135862357,

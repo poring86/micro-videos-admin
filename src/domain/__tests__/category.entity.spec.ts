@@ -57,5 +57,37 @@ describe('Category Unit Tests', () => {
       expect(category.is_active).toBeTruthy()
       expect(category.created_at).toBeInstanceOf(Date)
     })
+    test("should change name", () => {
+      const category = new Category({
+        name: "Movie"
+      })
+      category.changeName("other name")
+      expect(category.name).toBe("other name")
+    })
+    test("should change description", () => {
+      const category = new Category({
+        name: "Movie"
+      })
+      category.changeDescription("some description")
+      expect(category.description).toBe("some description")
+    })
+
+    test("should activate a category", () => {
+      const category = Category.create({
+        name: "Filmes",
+        is_active: false
+      })
+      category.activate()
+      expect(category.is_active).toBe(true)
+    })
+
+    test("should disable a category", () => {
+      const category = Category.create({
+        name: "Filmes",
+        is_active: false
+      })
+      category.deactivate()
+      expect(category.is_active).toBe(false)
+    })
   })
 })
