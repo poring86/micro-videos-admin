@@ -3,7 +3,7 @@ export type CategoryConstructorProps = {
   name: string;
   description?: string | null
   is_active?: boolean
-  created_at: Date
+  created_at?: Date
 }
 
 export type CategoryCreateCommand = {

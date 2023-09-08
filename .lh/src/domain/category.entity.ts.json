@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 15,
+            "activePatchIndex": 16,
             "patches": [
                 {
                     "date": 1694131136201,
@@ -68,6 +68,10 @@
                 {
                     "date": 1694134717876,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,11 +32,8 @@\n   static create(props: CategoryConstructorProps): Category {\n     return new Category(props)\n   }\n \n-  // update(props: Partial<CategoryConstructorProps>): Category {\n-  //   return new Category({ ...this, ...props })\n-  // }\n   changeName(name: string): void {\n     this.name = name\n   }\n \n"
+                },
+                {
+                    "date": 1694136784111,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n   category_id?: string\n   name: string;\n   description?: string | null\n   is_active?: boolean\n-  created_at: Date\n+  created_at?: Date\n }\n \n export type CategoryCreateCommand = {\n   category_id: string\n"
                 }
             ],
             "date": 1694131136201,

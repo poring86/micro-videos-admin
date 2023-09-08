@@ -1,0 +1,122 @@
+{
+    "sourceFile": "src/domain/__tests__/category.entity.spec.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 26,
+            "patches": [
+                {
+                    "date": 1694135862357,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1694136431684,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,3 +1,9 @@\n-test('xpto', () => {\n-  expect(1 + 2).toBe(3)\n+import { Category } from '../category.entity'\n+\n+describe('Category Unit Tests', () => {\n+  test('constructor', () => {\n+    const category = new Category({\n+      name: 'Movie'\n+    })\n+  })\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694136649967,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,6 +4,7 @@\n   test('constructor', () => {\n     const category = new Category({\n       name: 'Movie'\n     })\n+    expect(category.category_id).toBeDefined()\n   })\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694136665942,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,7 +4,7 @@\n   test('constructor', () => {\n     const category = new Category({\n       name: 'Movie'\n     })\n-    expect(category.category_id).toBeDefined()\n+    expect(category.category_id).toBeUndefined()\n   })\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694136708468,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,6 +5,7 @@\n     const category = new Category({\n       name: 'Movie'\n     })\n     expect(category.category_id).toBeUndefined()\n+    expect(category.name).toBe('Movie')\n   })\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694136732441,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,6 +6,7 @@\n       name: 'Movie'\n     })\n     expect(category.category_id).toBeUndefined()\n     expect(category.name).toBe('Movie')\n+    expect(category.description).toBeNull()\n   })\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694136809603,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,6 +7,7 @@\n     })\n     expect(category.category_id).toBeUndefined()\n     expect(category.name).toBe('Movie')\n     expect(category.description).toBeNull()\n+    expect(category.description).toBeTruthy()\n   })\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694136834610,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,7 +7,8 @@\n     })\n     expect(category.category_id).toBeUndefined()\n     expect(category.name).toBe('Movie')\n     expect(category.description).toBeNull()\n-    expect(category.description).toBeTruthy()\n+    expect(category.is_active).toBeTruthy()\n+    expect(category.created_at).toBeTruthy()\n   })\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694136849192,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,7 +8,7 @@\n     expect(category.category_id).toBeUndefined()\n     expect(category.name).toBe('Movie')\n     expect(category.description).toBeNull()\n     expect(category.is_active).toBeTruthy()\n-    expect(category.created_at).toBeTruthy()\n+    expect(category.created_at).toBeInstanceOf(Date)\n   })\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694137221201,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,14 +1,21 @@\n import { Category } from '../category.entity'\n \n describe('Category Unit Tests', () => {\n   test('constructor', () => {\n-    const category = new Category({\n+    let category = new Category({\n       name: 'Movie'\n     })\n     expect(category.category_id).toBeUndefined()\n     expect(category.name).toBe('Movie')\n     expect(category.description).toBeNull()\n     expect(category.is_active).toBeTruthy()\n     expect(category.created_at).toBeInstanceOf(Date)\n   })\n+\n+  category = new Category({\n+    name: \"Movie\",\n+    description: \"Movie description\",\n+    is_active: false,\n+    created_at\n+  })\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694137390057,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,13 +9,20 @@\n     expect(category.name).toBe('Movie')\n     expect(category.description).toBeNull()\n     expect(category.is_active).toBeTruthy()\n     expect(category.created_at).toBeInstanceOf(Date)\n+\n+    const created_at = new Date()\n+    category = new Category({\n+      name: \"Movie\",\n+      description: \"Movie description\",\n+      is_active: false,\n+      created_at\n+    })\n+\n+    expect(category.category_id).toBeUndefined()\n+    expect(category.name).toBe('Movie')\n+    expect(category.description).toBe('Movie description')\n   })\n \n-  category = new Category({\n-    name: \"Movie\",\n-    description: \"Movie description\",\n-    is_active: false,\n-    created_at\n-  })\n+\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694138463297,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,8 +21,9 @@\n \n     expect(category.category_id).toBeUndefined()\n     expect(category.name).toBe('Movie')\n     expect(category.description).toBe('Movie description')\n+    expect(category.description).toBeFalsy()\n   })\n \n \n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694138499022,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,9 +21,10 @@\n \n     expect(category.category_id).toBeUndefined()\n     expect(category.name).toBe('Movie')\n     expect(category.description).toBe('Movie description')\n-    expect(category.description).toBeFalsy()\n+    expect(category.is_active).toBeFalsy()\n+    expect(category.created_at).toBe(created_at)\n   })\n \n \n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694138720426,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,7 +24,5 @@\n     expect(category.description).toBe('Movie description')\n     expect(category.is_active).toBeFalsy()\n     expect(category.created_at).toBe(created_at)\n   })\n-\n-\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694138968491,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,10 +14,8 @@\n     const created_at = new Date()\n     category = new Category({\n       name: \"Movie\",\n       description: \"Movie description\",\n-      is_active: false,\n-      created_at\n     })\n \n     expect(category.category_id).toBeUndefined()\n     expect(category.name).toBe('Movie')\n"
+                },
+                {
+                    "date": 1694139067266,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,8 +14,10 @@\n     const created_at = new Date()\n     category = new Category({\n       name: \"Movie\",\n       description: \"Movie description\",\n+      is_active: false,\n+      created_at\n     })\n \n     expect(category.category_id).toBeUndefined()\n     expect(category.name).toBe('Movie')\n"
+                },
+                {
+                    "date": 1694139553596,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,9 @@\n import { Category } from '../category.entity'\n \n describe('Category Unit Tests', () => {\n-  test('constructor', () => {\n+  describe('constructor', () => {\n+    test('constructor1 - should create a category with default value')\n     let category = new Category({\n       name: 'Movie'\n     })\n     expect(category.category_id).toBeUndefined()\n"
+                },
+                {
+                    "date": 1694139751129,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,29 +1,35 @@\n import { Category } from '../category.entity'\n \n describe('Category Unit Tests', () => {\n   describe('constructor', () => {\n-    test('constructor1 - should create a category with default value')\n-    let category = new Category({\n-      name: 'Movie'\n+    test('constructor1 - should create a category with default value', () => {\n+      let category = new Category({\n+        name: 'Movie'\n+      })\n+      expect(category.category_id).toBeUndefined()\n+      expect(category.name).toBe('Movie')\n+      expect(category.description).toBeNull()\n+      expect(category.is_active).toBeTruthy()\n+      expect(category.created_at).toBeInstanceOf(Date)\n     })\n-    expect(category.category_id).toBeUndefined()\n-    expect(category.name).toBe('Movie')\n-    expect(category.description).toBeNull()\n-    expect(category.is_active).toBeTruthy()\n-    expect(category.created_at).toBeInstanceOf(Date)\n \n-    const created_at = new Date()\n-    category = new Category({\n-      name: \"Movie\",\n-      description: \"Movie description\",\n-      is_active: false,\n-      created_at\n+    test('constructor2 - should create a category with default value', () => {\n+      const created_at = new Date()\n+      category = new Category({\n+        name: \"Movie\",\n+        description: \"Movie description\",\n+        is_active: false,\n+        created_at\n+      })\n+\n+      expect(category.category_id).toBeUndefined()\n+      expect(category.name).toBe('Movie')\n+      expect(category.description).toBe('Movie description')\n+      expect(category.is_active).toBeFalsy()\n+      expect(category.created_at).toBe(created_at)\n     })\n \n-    expect(category.category_id).toBeUndefined()\n-    expect(category.name).toBe('Movie')\n-    expect(category.description).toBe('Movie description')\n-    expect(category.is_active).toBeFalsy()\n-    expect(category.created_at).toBe(created_at)\n+\n+\n   })\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694139762546,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n     })\n \n     test('constructor2 - should create a category with default value', () => {\n       const created_at = new Date()\n-      category = new Category({\n+      let category = new Category({\n         name: \"Movie\",\n         description: \"Movie description\",\n         is_active: false,\n         created_at\n"
+                },
+                {
+                    "date": 1694139787298,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n import { Category } from '../category.entity'\n \n describe('Category Unit Tests', () => {\n   describe('constructor', () => {\n-    test('constructor1 - should create a category with default value', () => {\n+    test('should create a category with default value', () => {\n       let category = new Category({\n         name: 'Movie'\n       })\n       expect(category.category_id).toBeUndefined()\n@@ -12,9 +12,9 @@\n       expect(category.is_active).toBeTruthy()\n       expect(category.created_at).toBeInstanceOf(Date)\n     })\n \n-    test('constructor2 - should create a category with default value', () => {\n+    test('should create a category with default value', () => {\n       const created_at = new Date()\n       let category = new Category({\n         name: \"Movie\",\n         description: \"Movie description\",\n"
+                },
+                {
+                    "date": 1694139946853,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n import { Category } from '../category.entity'\n \n describe('Category Unit Tests', () => {\n   describe('constructor', () => {\n-    test('should create a category with default value', () => {\n+    test('should create a category with default values', () => {\n       let category = new Category({\n         name: 'Movie'\n       })\n       expect(category.category_id).toBeUndefined()\n@@ -12,9 +12,9 @@\n       expect(category.is_active).toBeTruthy()\n       expect(category.created_at).toBeInstanceOf(Date)\n     })\n \n-    test('should create a category with default value', () => {\n+    test('should create a category with all values', () => {\n       const created_at = new Date()\n       let category = new Category({\n         name: \"Movie\",\n         description: \"Movie description\",\n"
+                },
+                {
+                    "date": 1694140165845,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,9 +27,6 @@\n       expect(category.description).toBe('Movie description')\n       expect(category.is_active).toBeFalsy()\n       expect(category.created_at).toBe(created_at)\n     })\n-\n-\n-\n   })\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694140181917,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n \n describe('Category Unit Tests', () => {\n   describe('constructor', () => {\n     test('should create a category with default values', () => {\n-      let category = new Category({\n+      const category = new Category({\n         name: 'Movie'\n       })\n       expect(category.category_id).toBeUndefined()\n       expect(category.name).toBe('Movie')\n@@ -14,9 +14,9 @@\n     })\n \n     test('should create a category with all values', () => {\n       const created_at = new Date()\n-      let category = new Category({\n+      const category = new Category({\n         name: \"Movie\",\n         description: \"Movie description\",\n         is_active: false,\n         created_at\n"
+                },
+                {
+                    "date": 1694141035577,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,6 +27,34 @@\n       expect(category.description).toBe('Movie description')\n       expect(category.is_active).toBeFalsy()\n       expect(category.created_at).toBe(created_at)\n     })\n+\n+    test('should create a category with all values', () => {\n+      const created_at = new Date()\n+      const category = new Category({\n+        name: \"Movie\",\n+        description: \"Movie description\",\n+        is_active: false,\n+        created_at\n+      })\n+\n+      expect(category.category_id).toBeUndefined()\n+      expect(category.name).toBe('Movie')\n+      expect(category.description).toBe('Movie description')\n+      expect(category.is_active).toBeFalsy()\n+      expect(category.created_at).toBe(created_at)\n+    })\n+\n+    test('should create a category with name and description', () => {\n+      const category = new Category({\n+        name: \"Movie\",\n+        description: \"Movie description\",\n+      })\n+\n+      expect(category.category_id).toBeUndefined()\n+      expect(category.name).toBe('Movie')\n+      expect(category.description).toBe('Movie description')\n+      expect(category.is_active).toBeFalsy()\n+    })\n   })\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694141073331,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -54,7 +54,8 @@\n       expect(category.category_id).toBeUndefined()\n       expect(category.name).toBe('Movie')\n       expect(category.description).toBe('Movie description')\n       expect(category.is_active).toBeFalsy()\n+      expect(category.created_at).toBeInstanceOf(Date)\n     })\n   })\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694141173870,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -40,9 +40,9 @@\n \n       expect(category.category_id).toBeUndefined()\n       expect(category.name).toBe('Movie')\n       expect(category.description).toBe('Movie description')\n-      expect(category.is_active).toBeFalsy()\n+      expect(category.is_active).toBeTruthy()\n       expect(category.created_at).toBe(created_at)\n     })\n \n     test('should create a category with name and description', () => {\n"
+                },
+                {
+                    "date": 1694141188165,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -40,9 +40,9 @@\n \n       expect(category.category_id).toBeUndefined()\n       expect(category.name).toBe('Movie')\n       expect(category.description).toBe('Movie description')\n-      expect(category.is_active).toBeTruthy()\n+      expect(category.is_active).toBeFalsy()\n       expect(category.created_at).toBe(created_at)\n     })\n \n     test('should create a category with name and description', () => {\n@@ -53,9 +53,9 @@\n \n       expect(category.category_id).toBeUndefined()\n       expect(category.name).toBe('Movie')\n       expect(category.description).toBe('Movie description')\n-      expect(category.is_active).toBeFalsy()\n+      expect(category.is_active).toBeTruthy()\n       expect(category.created_at).toBeInstanceOf(Date)\n     })\n   })\n })\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1694135862357,
+            "name": "Commit-0",
+            "content": "test('xpto', () => {\n  expect(1 + 2).toBe(3)\n})"
+        }
+    ]
+}
