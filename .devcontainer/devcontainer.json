@@ -24,7 +24,7 @@
   },
   "customizations": {
     "vscode": {
-      "extensions": ["ID"]
+      "extensions": ["Orta.vscode-jest", "firsttris.vscode-jest-runner"]
     }
   }
 

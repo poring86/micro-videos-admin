@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 2,
+            "activePatchIndex": 4,
             "patches": [
                 {
                     "date": 1694116991338,
@@ -16,6 +16,14 @@
                 {
                     "date": 1694117798019,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,8 +20,13 @@\n       \"plugins\": \"git git-flow F-Sy-H zsh-autosuggestions zsh-completions\",\n       \"omzPlugins\": \"https://github.com/z-shell/F-Sy-H http://github.com/zsh-users/zsh-autosuggestions http://github.com/zsh-users/zsh-completions\"\n     },\n     \"ghcr.io/stuartleeks/dev-container-features/shell-history:0\": {}\n+  },\n+  \"customizations\": {\n+    \"vscode\": {\n+      \"extensions\": [\"ID\"]\n+    }\n   }\n \n   // Features to add to the dev container. More info: https://containers.dev/features.\n   // \"features\": {},\n"
+                },
+                {
+                    "date": 1694199879045,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,9 +23,9 @@\n     \"ghcr.io/stuartleeks/dev-container-features/shell-history:0\": {}\n   },\n   \"customizations\": {\n     \"vscode\": {\n-      \"extensions\": [\"ID\"]\n+      \"extensions\": [\"Orta.vscode-jest\"]\n     }\n   }\n \n   // Features to add to the dev container. More info: https://containers.dev/features.\n"
+                },
+                {
+                    "date": 1694199947502,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,9 +23,9 @@\n     \"ghcr.io/stuartleeks/dev-container-features/shell-history:0\": {}\n   },\n   \"customizations\": {\n     \"vscode\": {\n-      \"extensions\": [\"Orta.vscode-jest\"]\n+      \"extensions\": [\"Orta.vscode-jest\", \"firsttris.vscode-jest-runner\"]\n     }\n   }\n \n   // Features to add to the dev container. More info: https://containers.dev/features.\n"
                 }
             ],
             "date": 1694116991338,
