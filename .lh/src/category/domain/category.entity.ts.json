@@ -1,0 +1,26 @@
+{
+    "sourceFile": "src/category/domain/category.entity.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1694299548942,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1694299587745,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,9 +23,9 @@\n   is_active: boolean\n   created_at: Date\n \n   constructor(props: CategoryConstructorProps) {\n-    this.category_id = props.category_id\n+    this.category_id = props.category_id ?? new Uuid()\n     this.name = props.name\n     this.description = props.description ?? null\n     this.is_active = props.is_active ?? true\n     this.created_at = props.created_at ?? new Date()\n"
+                },
+                {
+                    "date": 1694299722187,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -52,9 +52,9 @@\n   }\n \n   toJSON() {\n     return {\n-      category_id: this.category_id,\n+      category_id: this.category_id.id,\n       name: this.name,\n       description: this.description,\n       is_active: this.is_active,\n       created_at: this.created_at\n"
+                }
+            ],
+            "date": 1694299548942,
+            "name": "Commit-0",
+            "content": "import { Uuid } from \"../../shared/domain/value-objects/uuid\";\n\nexport type CategoryConstructorProps = {\n  category_id?: Uuid\n  name: string;\n  description?: string | null\n  is_active?: boolean\n  created_at?: Date\n}\n\nexport type CategoryCreateCommand = {\n  category_id: string\n  name: string\n  description: string | null\n  is_active: boolean\n  created_at: Date\n}\n\nexport class Category {\n  category_id: Uuid\n  name: string\n  description: string | null\n  is_active: boolean\n  created_at: Date\n\n  constructor(props: CategoryConstructorProps) {\n    this.category_id = props.category_id\n    this.name = props.name\n    this.description = props.description ?? null\n    this.is_active = props.is_active ?? true\n    this.created_at = props.created_at ?? new Date()\n  }\n\n  static create(props: CategoryConstructorProps): Category {\n    return new Category(props)\n  }\n\n  changeName(name: string): void {\n    this.name = name\n  }\n\n  changeDescription(description: string): void {\n    this.description = description\n  }\n\n  activate() {\n    this.is_active = true\n  }\n\n  deactivate() {\n    this.is_active = false\n  }\n\n  toJSON() {\n    return {\n      category_id: this.category_id,\n      name: this.name,\n      description: this.description,\n      is_active: this.is_active,\n      created_at: this.created_at\n    }\n  }\n}"
+        }
+    ]
+}
