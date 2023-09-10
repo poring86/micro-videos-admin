@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/shared/domain/validators/class-validator-fields.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1694359185164,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1694359185164,
+            "name": "Commit-0",
+            "content": "import { validateSync } from \"class-validator\";\nimport ValidatorFieldsInterface, {\n  FieldsErrors,\n} from \"./validator-fields-interface\";\n\nexport abstract class ClassValidatorFields<PropsValidated>\n  implements ValidatorFieldsInterface<PropsValidated>\n{\n  errors: FieldsErrors = null;\n  validatedData: PropsValidated = null;\n\n  validate(data: any): boolean {\n    const errors = validateSync(data);\n    if (errors.length) {\n      this.errors = {};\n      for (const error of errors) {\n        const field = error.property;\n        this.errors[field] = Object.values(error.constraints);\n      }\n    } else {\n      this.validatedData = data;\n    }\n    return !errors.length;\n  }\n}\n\nexport default ClassValidatorFields;"
+        }
+    ]
+}

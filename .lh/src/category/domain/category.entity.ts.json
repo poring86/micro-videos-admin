@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 2,
+            "activePatchIndex": 14,
             "patches": [
                 {
                     "date": 1694299548942,
@@ -16,6 +16,54 @@
                 {
                     "date": 1694299722187,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -52,9 +52,9 @@\n   }\n \n   toJSON() {\n     return {\n-      category_id: this.category_id,\n+      category_id: this.category_id.id,\n       name: this.name,\n       description: this.description,\n       is_active: this.is_active,\n       created_at: this.created_at\n"
+                },
+                {
+                    "date": 1694309018402,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -35,8 +35,9 @@\n     return new Category(props)\n   }\n \n   changeName(name: string): void {\n+    ValidatorRules.values(name, 'name').required().string().maxLength(255)\n     this.name = name\n   }\n \n   changeDescription(description: string): void {\n"
+                },
+                {
+                    "date": 1694346326075,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,8 @@\n+import { ValidatorRules } from \"../../shared/domain/validators/validator-rules\";\n import { Uuid } from \"../../shared/domain/value-objects/uuid\";\n \n+\n export type CategoryConstructorProps = {\n   category_id?: Uuid\n   name: string;\n   description?: string | null\n@@ -36,8 +38,9 @@\n   }\n \n   changeName(name: string): void {\n     ValidatorRules.values(name, 'name').required().string().maxLength(255)\n+\n     this.name = name\n   }\n \n   changeDescription(description: string): void {\n"
+                },
+                {
+                    "date": 1694347620542,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-import { ValidatorRules } from \"../../shared/domain/validators/validator-rules\";\n+import { ValidatorRules } from \"./validator-rules\";\n import { Uuid } from \"../../shared/domain/value-objects/uuid\";\n \n \n export type CategoryConstructorProps = {\n"
+                },
+                {
+                    "date": 1694347634788,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-import { ValidatorRules } from \"./validator-rules\";\n+import { ValidatorRules } from \"../../shared/domain/validators/validator-rules\";\n import { Uuid } from \"../../shared/domain/value-objects/uuid\";\n \n \n export type CategoryConstructorProps = {\n"
+                },
+                {
+                    "date": 1694347645450,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-import { ValidatorRules } from \"../../shared/domain/validators/validator-rules\";\n+import ValidatorRules from \"../../shared/domain/validators/validator-rules\";\n import { Uuid } from \"../../shared/domain/value-objects/uuid\";\n \n \n export type CategoryConstructorProps = {\n"
+                },
+                {
+                    "date": 1694361028233,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,8 @@\n+import validator from \"validator\";\n import ValidatorRules from \"../../shared/domain/validators/validator-rules\";\n import { Uuid } from \"../../shared/domain/value-objects/uuid\";\n+import { CategoryValidatorFactory } from \"./category.validator\";\n \n \n export type CategoryConstructorProps = {\n   category_id?: Uuid\n@@ -54,8 +56,13 @@\n   deactivate() {\n     this.is_active = false\n   }\n \n+  static validate(entity: Category) {\n+    const validate = CategoryValidatorFactory.create()\n+    return validator.validate(entity)\n+  }\n+\n   toJSON() {\n     return {\n       category_id: this.category_id.id,\n       name: this.name,\n"
+                },
+                {
+                    "date": 1694361035752,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -57,9 +57,9 @@\n     this.is_active = false\n   }\n \n   static validate(entity: Category) {\n-    const validate = CategoryValidatorFactory.create()\n+    const validator = CategoryValidatorFactory.create()\n     return validator.validate(entity)\n   }\n \n   toJSON() {\n"
+                },
+                {
+                    "date": 1694361344018,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,4 @@\n-import validator from \"validator\";\n import ValidatorRules from \"../../shared/domain/validators/validator-rules\";\n import { Uuid } from \"../../shared/domain/value-objects/uuid\";\n import { CategoryValidatorFactory } from \"./category.validator\";\n \n"
+                },
+                {
+                    "date": 1694361405298,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -34,9 +34,11 @@\n     this.created_at = props.created_at ?? new Date()\n   }\n \n   static create(props: CategoryConstructorProps): Category {\n-    return new Category(props)\n+    const cateogory = new Category(props)\n+    Category.validate(category)\n+    return cateogory\n   }\n \n   changeName(name: string): void {\n     ValidatorRules.values(name, 'name').required().string().maxLength(255)\n"
+                },
+                {
+                    "date": 1694361417525,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -34,11 +34,11 @@\n     this.created_at = props.created_at ?? new Date()\n   }\n \n   static create(props: CategoryConstructorProps): Category {\n-    const cateogory = new Category(props)\n+    const category = new Category(props)\n     Category.validate(category)\n-    return cateogory\n+    return category\n   }\n \n   changeName(name: string): void {\n     ValidatorRules.values(name, 'name').required().string().maxLength(255)\n"
+                },
+                {
+                    "date": 1694361472509,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -43,12 +43,14 @@\n   changeName(name: string): void {\n     ValidatorRules.values(name, 'name').required().string().maxLength(255)\n \n     this.name = name\n+    Category.validate(category)\n   }\n \n   changeDescription(description: string): void {\n     this.description = description\n+    Category.validate(category)\n   }\n \n   activate() {\n     this.is_active = true\n"
+                },
+                {
+                    "date": 1694361513332,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -43,14 +43,14 @@\n   changeName(name: string): void {\n     ValidatorRules.values(name, 'name').required().string().maxLength(255)\n \n     this.name = name\n-    Category.validate(category)\n+    Category.validate(this)\n   }\n \n   changeDescription(description: string): void {\n     this.description = description\n-    Category.validate(category)\n+    Category.validate(this)\n   }\n \n   activate() {\n     this.is_active = true\n"
                 }
             ],
             "date": 1694299548942,

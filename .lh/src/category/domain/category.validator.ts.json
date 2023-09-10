@@ -1,0 +1,30 @@
+{
+    "sourceFile": "src/category/domain/category.validator.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 3,
+            "patches": [
+                {
+                    "date": 1694360016529,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1694360811105,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,4 +26,10 @@\n   validate(entity: Category) {\n     return super.validate(new CategoryRules(entity))\n   }\n }\n+\n+export class CategoryValidatorFactory {\n+  static create(entity: Category) {\n+    return new CategoryValidator().validate(entity)\n+  }\n+}\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694360820161,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,7 +29,7 @@\n }\n \n export class CategoryValidatorFactory {\n   static create(entity: Category) {\n-    return new CategoryValidator().validate(entity)\n+    return new CategoryValidator()\n   }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694360967757,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,8 +28,8 @@\n   }\n }\n \n export class CategoryValidatorFactory {\n-  static create(entity: Category) {\n+  static create() {\n     return new CategoryValidator()\n   }\n }\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1694360016529,
+            "name": "Commit-0",
+            "content": "import { IsBoolean, IsNotEmpty, IsOptional, IsString, MaxLength } from \"class-validator\";\nimport { Category } from \"./category.entity\";\nimport ClassValidatorFields from \"../../shared/domain/validators/class-validator-fields\";\n\nclass CategoryRules {\n  @MaxLength(255)\n  @IsString()\n  @IsNotEmpty()\n  name: string\n\n\n  @IsString()\n  @IsOptional()\n  description: string | null\n\n  @IsBoolean()\n  @IsNotEmpty()\n  is_active: boolean\n\n  constructor({ name, description, is_active }: Category) {\n    Object.assign(this, { name, description, is_active })\n  }\n}\n\nexport class CategoryValidator extends ClassValidatorFields<CategoryRules>{\n  validate(entity: Category) {\n    return super.validate(new CategoryRules(entity))\n  }\n}\n"
+        }
+    ]
+}
