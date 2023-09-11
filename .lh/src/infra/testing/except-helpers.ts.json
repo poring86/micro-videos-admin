@@ -1,0 +1,78 @@
+{
+    "sourceFile": "src/infra/testing/except-helpers.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 15,
+            "patches": [
+                {
+                    "date": 1694437737945,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1694437779724,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,3 +1,5 @@\n+import { FieldsErrors } from \"../../shared/domain/validators/validator-fields-interface\";\n+\n expect.extend({\n-  containsErrorMessage(expected: any, received: any) { }\n+  containsErrorMessage(expected: any, received: FieldsErrors) { }\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694437943018,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,10 @@\n+import ClassValidatorFields from \"../../shared/domain/validators/class-validator-fields\";\n import { FieldsErrors } from \"../../shared/domain/validators/validator-fields-interface\";\n \n+type Expected = {\n+  validator: ClassValidatorFields<any>\n+} | { () => any }\n+\n expect.extend({\n   containsErrorMessage(expected: any, received: FieldsErrors) { }\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694437957645,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n import ClassValidatorFields from \"../../shared/domain/validators/class-validator-fields\";\n import { FieldsErrors } from \"../../shared/domain/validators/validator-fields-interface\";\n \n-type Expected = {\n+type Expected = | {\n   validator: ClassValidatorFields<any>\n } | { () => any }\n \n expect.extend({\n"
+                },
+                {
+                    "date": 1694437981364,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n import { FieldsErrors } from \"../../shared/domain/validators/validator-fields-interface\";\n \n type Expected = | {\n   validator: ClassValidatorFields<any>\n-} | { () => any }\n+} | (() => any)\n \n expect.extend({\n   containsErrorMessage(expected: any, received: FieldsErrors) { }\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694438107507,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,8 +2,9 @@\n import { FieldsErrors } from \"../../shared/domain/validators/validator-fields-interface\";\n \n type Expected = | {\n   validator: ClassValidatorFields<any>\n+  data: any\n } | (() => any)\n \n expect.extend({\n   containsErrorMessage(expected: any, received: FieldsErrors) { }\n"
+                },
+                {
+                    "date": 1694438208124,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,11 +1,22 @@\n import ClassValidatorFields from \"../../shared/domain/validators/class-validator-fields\";\n import { FieldsErrors } from \"../../shared/domain/validators/validator-fields-interface\";\n+import { EntityValidationError } from \"../../shared/domain/validators/valitation.error\";\n \n type Expected = | {\n   validator: ClassValidatorFields<any>\n   data: any\n } | (() => any)\n \n expect.extend({\n-  containsErrorMessage(expected: any, received: FieldsErrors) { }\n+  containsErrorMessage(expected: any, received: FieldsErrors) {\n+    if (typeof expected === \"function\") {\n+      try {\n+        expected()\n+        return isValid()\n+      } catch (e) {\n+        const error = e as EntityValidationError\n+        return assertContainsErrorMessages(error.error, received)\n+      }\n+    }\n+  }\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694438253880,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,8 +15,10 @@\n         return isValid()\n       } catch (e) {\n         const error = e as EntityValidationError\n         return assertContainsErrorMessages(error.error, received)\n-      }\n+      } else {\n+      const { validator, data } = expected\n+      const validated = validator.validate(data)\n     }\n   }\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694438270238,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,10 +15,10 @@\n         return isValid()\n       } catch (e) {\n         const error = e as EntityValidationError\n         return assertContainsErrorMessages(error.error, received)\n-      } else {\n+      }\n+    } else {\n       const { validator, data } = expected\n       const validated = validator.validate(data)\n     }\n\\ No newline at end of file\n-  }\n-})\n+  })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694438347266,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,6 +19,12 @@\n       }\n     } else {\n       const { validator, data } = expected\n       const validated = validator.validate(data)\n+\n+      if (validated) {\n+        return isValid()\n+      }\n+\n+      return assertContainsErrorMessages(validator.errors, received)\n     }\n   })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694438539982,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,5 +26,7 @@\n       }\n \n       return assertContainsErrorMessages(validator.errors, received)\n     }\n-  })\n\\ No newline at end of file\n+  }\n+})\n+\n"
+                },
+                {
+                    "date": 1694438597254,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,4 +29,8 @@\n     }\n   }\n })\n \n+function isValid() {\n+  return { pass: true, message: () => \"\" }\n+}\n+\n"
+                },
+                {
+                    "date": 1694438612306,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,7 +30,7 @@\n   }\n })\n \n function isValid() {\n-  return { pass: true, message: () => \"\" }\n+  return { pass: false, message: () => \"\" }\n }\n \n"
+                },
+                {
+                    "date": 1694439907564,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,4 +33,16 @@\n function isValid() {\n   return { pass: false, message: () => \"\" }\n }\n \n+function assertContainsErrorMessages(\n+  expected: FieldsErrors,\n+  received: FieldsErrors\n+) {\n+  const isMatch = expect.objectContaining(received).asymmetricMatch(expected)\n+  return isMatch ? { pass: true, message: () => \"\" } : {\n+    pass: false,\n+    message: () => `The validation errors not contains ${JSON.stringify(\n+      received\n+    )}. Current: ${JSON.stringify(expect)}`\n+  }\n+}\n"
+                },
+                {
+                    "date": 1694439917889,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,7 +42,7 @@\n   return isMatch ? { pass: true, message: () => \"\" } : {\n     pass: false,\n     message: () => `The validation errors not contains ${JSON.stringify(\n       received\n-    )}. Current: ${JSON.stringify(expect)}`\n+    )}. Current: ${JSON.stringify(expected)}`\n   }\n }\n"
+                },
+                {
+                    "date": 1694440154654,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,12 +29,8 @@\n     }\n   }\n })\n \n-function isValid() {\n-  return { pass: false, message: () => \"\" }\n-}\n-\n function assertContainsErrorMessages(\n   expected: FieldsErrors,\n   received: FieldsErrors\n ) {\n@@ -45,4 +41,8 @@\n       received\n     )}. Current: ${JSON.stringify(expected)}`\n   }\n }\n+\n+function isValid() {\n+  return { pass: false, message: () => \"\" }\n+}\n"
+                }
+            ],
+            "date": 1694437737945,
+            "name": "Commit-0",
+            "content": "expect.extend({\n  containsErrorMessage(expected: any, received: any) { }\n})"
+        }
+    ]
+}

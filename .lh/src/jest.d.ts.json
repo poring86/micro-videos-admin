@@ -1,0 +1,22 @@
+{
+    "sourceFile": "src/jest.d.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1694447186276,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1694447580425,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,8 +2,8 @@\n \n declare global {\n   namespace jest {\n     interface Machers<R> {\n-      containsErrorMessage: (expected: FieldsErrors) => R\n+      containsErrorMessages: (expected: FieldsErrors) => R\n     }\n   }\n }\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1694447186276,
+            "name": "Commit-0",
+            "content": "import { FieldsErrors } from \"./shared/domain/validators/validator-fields-interface\";\n\ndeclare global {\n  namespace jest {\n    interface Machers<R> {\n      containsErrorMessage: (expected: FieldsErrors) => R\n    }\n  }\n}"
+        }
+    ]
+}

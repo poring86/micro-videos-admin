@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 14,
+            "activePatchIndex": 16,
             "patches": [
                 {
                     "date": 1694299548942,
@@ -64,6 +64,14 @@
                 {
                     "date": 1694361513332,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -43,14 +43,14 @@\n   changeName(name: string): void {\n     ValidatorRules.values(name, 'name').required().string().maxLength(255)\n \n     this.name = name\n-    Category.validate(category)\n+    Category.validate(this)\n   }\n \n   changeDescription(description: string): void {\n     this.description = description\n-    Category.validate(category)\n+    Category.validate(this)\n   }\n \n   activate() {\n     this.is_active = true\n"
+                },
+                {
+                    "date": 1694394971791,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,6 @@\n-import ValidatorRules from \"../../shared/domain/validators/validator-rules\";\n+\n+import { EntityValidationError } from \"../../shared/domain/validators/valitation.error\";\n import { Uuid } from \"../../shared/domain/value-objects/uuid\";\n import { CategoryValidatorFactory } from \"./category.validator\";\n \n \n@@ -38,11 +39,9 @@\n     const category = new Category(props)\n     Category.validate(category)\n     return category\n   }\n-\n   changeName(name: string): void {\n-    ValidatorRules.values(name, 'name').required().string().maxLength(255)\n \n     this.name = name\n     Category.validate(this)\n   }\n@@ -62,8 +61,12 @@\n \n   static validate(entity: Category) {\n     const validator = CategoryValidatorFactory.create()\n     return validator.validate(entity)\n+\n+    if (!isValid) {\n+      throw new EntityValidationError(validator.errors)\n+    }\n   }\n \n   toJSON() {\n     return {\n"
+                },
+                {
+                    "date": 1694395064109,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -60,9 +60,9 @@\n   }\n \n   static validate(entity: Category) {\n     const validator = CategoryValidatorFactory.create()\n-    return validator.validate(entity)\n+    const isValid = validator.validate(entity)\n \n     if (!isValid) {\n       throw new EntityValidationError(validator.errors)\n     }\n"
                 }
             ],
             "date": 1694299548942,

@@ -1,0 +1,22 @@
+{
+    "sourceFile": "src/shared/jest.d.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1694440854366,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1694440925098,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,9 @@\n+import { FieldsErrors } from \"./domain/validators/validator-fields-interface\";\n+\n declare global {\n   namespace jest {\n     interface Machers<R> {\n-      toBeInstanceOf(class: new (...args: any[]) => any): R\n+      containsErrorMessage: (expected: FieldsErrors) => R\n     }\n   }\n }\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1694440854366,
+            "name": "Commit-0",
+            "content": "declare global {\n  namespace jest {\n    interface Machers<R> {\n      toBeInstanceOf(class: new (...args: any[]) => any): R\n    }\n  }\n}"
+        }
+    ]
+}

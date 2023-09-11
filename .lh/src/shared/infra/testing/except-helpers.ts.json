@@ -1,0 +1,26 @@
+{
+    "sourceFile": "src/shared/infra/testing/except-helpers.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1694440599536,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1694440604706,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -34,9 +34,9 @@\n   expected: FieldsErrors,\n   received: FieldsErrors\n ) {\n   const isMatch = expect.objectContaining(received).asymmetricMatch(expected)\n-  return isMatch ? isValid : {\n+  return isMatch ? isValid() : {\n     pass: false,\n     message: () => `The validation errors not contains ${JSON.stringify(\n       received\n     )}. Current: ${JSON.stringify(expected)}`\n"
+                },
+                {
+                    "date": 1694440640245,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n   data: any\n } | (() => any)\n \n expect.extend({\n-  containsErrorMessage(expected: any, received: FieldsErrors) {\n+  containsErrorMessage(expected: Expected, received: FieldsErrors) {\n     if (typeof expected === \"function\") {\n       try {\n         expected()\n         return isValid()\n"
+                }
+            ],
+            "date": 1694440599536,
+            "name": "Commit-0",
+            "content": "import ClassValidatorFields from \"../../domain/validators/class-validator-fields\";\nimport { FieldsErrors } from \"../../domain/validators/validator-fields-interface\";\nimport { EntityValidationError } from \"../../domain/validators/valitation.error\";\n\ntype Expected = | {\n  validator: ClassValidatorFields<any>\n  data: any\n} | (() => any)\n\nexpect.extend({\n  containsErrorMessage(expected: any, received: FieldsErrors) {\n    if (typeof expected === \"function\") {\n      try {\n        expected()\n        return isValid()\n      } catch (e) {\n        const error = e as EntityValidationError\n        return assertContainsErrorMessages(error.error, received)\n      }\n    } else {\n      const { validator, data } = expected\n      const validated = validator.validate(data)\n\n      if (validated) {\n        return isValid()\n      }\n\n      return assertContainsErrorMessages(validator.errors, received)\n    }\n  }\n})\n\nfunction assertContainsErrorMessages(\n  expected: FieldsErrors,\n  received: FieldsErrors\n) {\n  const isMatch = expect.objectContaining(received).asymmetricMatch(expected)\n  return isMatch ? isValid : {\n    pass: false,\n    message: () => `The validation errors not contains ${JSON.stringify(\n      received\n    )}. Current: ${JSON.stringify(expected)}`\n  }\n}\n\nfunction isValid() {\n  return { pass: false, message: () => \"\" }\n}\n"
+        }
+    ]
+}
