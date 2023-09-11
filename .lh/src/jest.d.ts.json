@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 1,
+            "activePatchIndex": 3,
             "patches": [
                 {
                     "date": 1694447186276,
@@ -12,6 +12,14 @@
                 {
                     "date": 1694447580425,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,8 +2,8 @@\n \n declare global {\n   namespace jest {\n     interface Machers<R> {\n-      containsErrorMessage: (expected: FieldsErrors) => R\n+      containsErrorMessages: (expected: FieldsErrors) => R\n     }\n   }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694458977356,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n import { FieldsErrors } from \"./shared/domain/validators/validator-fields-interface\";\n \n declare global {\n   namespace jest {\n-    interface Machers<R> {\n-      containsErrorMessages: (expected: FieldsErrors) => R\n+    interface Matchers<R> {\n+      containsErrorMessages: (expected: FieldsErrors) => R;\n     }\n\\ No newline at end of file\n   }\n-}\n+}\n"
+                },
+                {
+                    "date": 1694458983108,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,5 +5,5 @@\n     interface Matchers<R> {\n       containsErrorMessages: (expected: FieldsErrors) => R;\n     }\n   }\n-}\n\\ No newline at end of file\n+}\n"
                 }
             ],
             "date": 1694447186276,
