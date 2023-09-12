@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 16,
+            "activePatchIndex": 23,
             "patches": [
                 {
                     "date": 1694299548942,
@@ -72,6 +72,34 @@
                 {
                     "date": 1694395064109,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -60,9 +60,9 @@\n   }\n \n   static validate(entity: Category) {\n     const validator = CategoryValidatorFactory.create()\n-    return validator.validate(entity)\n+    const isValid = validator.validate(entity)\n \n     if (!isValid) {\n       throw new EntityValidationError(validator.errors)\n     }\n"
+                },
+                {
+                    "date": 1694468483608,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,7 @@\n \n import { EntityValidationError } from \"../../shared/domain/validators/valitation.error\";\n+import { ValueObject } from \"../../shared/domain/value-object\";\n import { Uuid } from \"../../shared/domain/value-objects/uuid\";\n import { CategoryValidatorFactory } from \"./category.validator\";\n \n \n@@ -20,8 +21,12 @@\n   created_at: Date\n }\n \n export class Category {\n+  get entity_id(): ValueObject {\n+    throw new Error(\"Method not implemented\")\n+  }\n+\n   category_id: Uuid\n   name: string\n   description: string | null\n   is_active: boolean\n"
+                },
+                {
+                    "date": 1694468610877,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -39,8 +39,12 @@\n     this.is_active = props.is_active ?? true\n     this.created_at = props.created_at ?? new Date()\n   }\n \n+  get entity_id(): ValueObject {\n+    return this.category_id\n+  }\n+\n   static create(props: CategoryConstructorProps): Category {\n     const category = new Category(props)\n     Category.validate(category)\n     return category\n"
+                },
+                {
+                    "date": 1694468657949,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,6 @@\n \n+import { Entity } from \"../../shared/domain/entity\";\n import { EntityValidationError } from \"../../shared/domain/validators/valitation.error\";\n import { ValueObject } from \"../../shared/domain/value-object\";\n import { Uuid } from \"../../shared/domain/value-objects/uuid\";\n import { CategoryValidatorFactory } from \"./category.validator\";\n@@ -20,12 +21,9 @@\n   is_active: boolean\n   created_at: Date\n }\n \n-export class Category {\n-  get entity_id(): ValueObject {\n-    throw new Error(\"Method not implemented\")\n-  }\n+export class Category implements Entity {\n \n   category_id: Uuid\n   name: string\n   description: string | null\n"
+                },
+                {
+                    "date": 1694468683504,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,8 +30,9 @@\n   is_active: boolean\n   created_at: Date\n \n   constructor(props: CategoryConstructorProps) {\n+    super()\n     this.category_id = props.category_id ?? new Uuid()\n     this.name = props.name\n     this.description = props.description ?? null\n     this.is_active = props.is_active ?? true\n"
+                },
+                {
+                    "date": 1694469379720,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,9 +21,9 @@\n   is_active: boolean\n   created_at: Date\n }\n \n-export class Category implements Entity {\n+export class Category extends Entity {\n \n   category_id: Uuid\n   name: string\n   description: string | null\n"
+                },
+                {
+                    "date": 1694469618012,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -47,8 +47,15 @@\n     const category = new Category(props)\n     Category.validate(category)\n     return category\n   }\n+\n+  update(name: string, description: string) {\n+    this.name = name\n+\n+    this.description = description\n+  }\n+\n   changeName(name: string): void {\n \n     this.name = name\n     Category.validate(this)\n"
+                },
+                {
+                    "date": 1694469840622,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -50,10 +50,11 @@\n   }\n \n   update(name: string, description: string) {\n     this.name = name\n+    this.description = description\n \n-    this.description = description\n+    Category.validate(this)\n   }\n \n   changeName(name: string): void {\n \n"
                 }
             ],
             "date": 1694299548942,

@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 11,
+            "activePatchIndex": 17,
             "patches": [
                 {
                     "date": 1694299856714,
@@ -52,6 +52,30 @@
                 {
                     "date": 1694447574800,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -124,9 +124,9 @@\n \n describe(\"Category Validator\", () => {\n   describe(\"create command\", () => {\n     test('should an invalid category name property', () => {\n-      expect(() => Category.create({ name: null })).containsErrorMessage({\n+      expect(() => Category.create({ name: null })).containsErrorMessages({\n         name: [\n           \"name should not be empty\",\n           \"name must be a string\",\n           \"name must be shorter than or equal to 255 characters\"\n"
+                },
+                {
+                    "date": 1694470473499,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -118,8 +118,17 @@\n       category.deactivate()\n       expect(category.is_active).toBe(false)\n       expect(validateSpy).toHaveBeenCalledTimes(1)\n     })\n+\n+    test(\"should update a category\", () => {\n+      const category = Category.create({\n+        name: \"Movie\",\n+      })\n+      category.update(\"Filmes\", \"description\")\n+      expect(category.is_active).toBe(false)\n+      expect(validateSpy).toHaveBeenCalledTimes(2)\n+    })\n   })\n })\n \n describe(\"Category Validator\", () => {\n"
+                },
+                {
+                    "date": 1694470571616,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -124,9 +124,10 @@\n       const category = Category.create({\n         name: \"Movie\",\n       })\n       category.update(\"Filmes\", \"description\")\n-      expect(category.is_active).toBe(false)\n+      expect(category.name).toBe(\"Filmes\")\n+      expect(category.description).toBe(\"description\")\n       expect(validateSpy).toHaveBeenCalledTimes(2)\n     })\n   })\n })\n"
+                },
+                {
+                    "date": 1694470763745,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -143,6 +143,16 @@\n         ]\n       })\n     })\n \n+    // test('should an invalid category name property', () => {\n+    //   expect(() => Category.create({ name: null })).containsErrorMessages({\n+    //     name: [\n+    //       \"name should not be empty\",\n+    //       \"name must be a string\",\n+    //       \"name must be shorter than or equal to 255 characters\"\n+    //     ]\n+    //   })\n+    // })\n+\n   })\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694471066565,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -123,9 +123,9 @@\n     test(\"should update a category\", () => {\n       const category = Category.create({\n         name: \"Movie\",\n       })\n-      category.update(\"Filmes\", \"description\")\n+      category.update(\"Filmes\", \"\")\n       expect(category.name).toBe(\"Filmes\")\n       expect(category.description).toBe(\"description\")\n       expect(validateSpy).toHaveBeenCalledTimes(2)\n     })\n@@ -143,16 +143,16 @@\n         ]\n       })\n     })\n \n-    // test('should an invalid category name property', () => {\n-    //   expect(() => Category.create({ name: null })).containsErrorMessages({\n-    //     name: [\n-    //       \"name should not be empty\",\n-    //       \"name must be a string\",\n-    //       \"name must be shorter than or equal to 255 characters\"\n-    //     ]\n-    //   })\n-    // })\n+    test('should an invalid category name property', () => {\n+      expect(() => Category.create({ name: null })).containsErrorMessages({\n+        name: [\n+          \"name should not be empty\",\n+          \"name must be a string\",\n+          \"name must be shorter than or equal to 255 characters\"\n+        ]\n+      })\n+    })\n \n   })\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694471082427,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -125,9 +125,9 @@\n         name: \"Movie\",\n       })\n       category.update(\"Filmes\", \"\")\n       expect(category.name).toBe(\"Filmes\")\n-      expect(category.description).toBe(\"description\")\n+      expect(category.description).toBe(\"\")\n       expect(validateSpy).toHaveBeenCalledTimes(2)\n     })\n   })\n })\n"
+                },
+                {
+                    "date": 1694471102773,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -123,11 +123,11 @@\n     test(\"should update a category\", () => {\n       const category = Category.create({\n         name: \"Movie\",\n       })\n-      category.update(\"Filmes\", \"\")\n+      category.update(\"Filmes\", \"description\")\n       expect(category.name).toBe(\"Filmes\")\n-      expect(category.description).toBe(\"\")\n+      expect(category.description).toBe(\"description\")\n       expect(validateSpy).toHaveBeenCalledTimes(2)\n     })\n   })\n })\n"
                 }
             ],
             "date": 1694299856714,

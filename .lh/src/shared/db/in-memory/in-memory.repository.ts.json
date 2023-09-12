@@ -1,0 +1,46 @@
+{
+    "sourceFile": "src/shared/db/in-memory/in-memory.repository.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 7,
+            "patches": [
+                {
+                    "date": 1694483440997,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1694483456517,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n import { ValueObject } from \"../../domain/value-object\";\n import { IRepository } from \"../../repository/repository-interface\";\n \n \n-export class InMemoryRepository<E extends Entity, EntityId extends ValueObject> implements IRepository<E, EntityId>{\n+export class InMemoryRepository<E extends string, EntityId extends ValueObject> implements IRepository<E, EntityId>{\n   insert(entity: any): Promise<void> {\n     throw new Error(\"Method not implemented.\");\n   }\n   bulkInsert(entity: any): Promise<void> {\n"
+                },
+                {
+                    "date": 1694483465037,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n import { ValueObject } from \"../../domain/value-object\";\n import { IRepository } from \"../../repository/repository-interface\";\n \n \n-export class InMemoryRepository<E extends string, EntityId extends ValueObject> implements IRepository<E, EntityId>{\n+export class InMemoryRepository<E extends Entity, EntityId extends ValueObject> implements IRepository<E, EntityId>{\n   insert(entity: any): Promise<void> {\n     throw new Error(\"Method not implemented.\");\n   }\n   bulkInsert(entity: any): Promise<void> {\n"
+                },
+                {
+                    "date": 1694483736338,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,13 +3,14 @@\n import { IRepository } from \"../../repository/repository-interface\";\n \n \n export class InMemoryRepository<E extends Entity, EntityId extends ValueObject> implements IRepository<E, EntityId>{\n-  insert(entity: any): Promise<void> {\n-    throw new Error(\"Method not implemented.\");\n+  items: E[] = []\n+  async insert(entity: E): Promise<void> {\n+    this.items.push(entity)\n   }\n-  bulkInsert(entity: any): Promise<void> {\n-    throw new Error(\"Method not implemented.\");\n+  async bulkInsert(entities: any): Promise<void> {\n+    this.items.push(...entities)\n   }\n   update(entity: any): Promise<void> {\n     throw new Error(\"Method not implemented.\");\n   }\n"
+                },
+                {
+                    "date": 1694484663099,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,26 +2,32 @@\n import { ValueObject } from \"../../domain/value-object\";\n import { IRepository } from \"../../repository/repository-interface\";\n \n \n-export class InMemoryRepository<E extends Entity, EntityId extends ValueObject> implements IRepository<E, EntityId>{\n+export abstract class InMemoryRepository<E extends Entity, EntityId extends ValueObject> implements IRepository<E, EntityId>{\n+  getEntity(): new (...args: any[]) => E {\n+    throw new Error(\"Method not implemented.\");\n+  }\n   items: E[] = []\n   async insert(entity: E): Promise<void> {\n     this.items.push(entity)\n   }\n   async bulkInsert(entities: any): Promise<void> {\n     this.items.push(...entities)\n   }\n-  update(entity: any): Promise<void> {\n+  update(entity: E): Promise<void> {\n     throw new Error(\"Method not implemented.\");\n   }\n-  delete(entity_id: any): Promise<any> {\n+  delete(entity_id: EntityId): Promise<any> {\n     throw new Error(\"Method not implemented.\");\n   }\n-  findAll(): Promise<any[]> {\n-    throw new Error(\"Method not implemented.\");\n+  findById(entity_id: E): Promise<any> {\n+    throw new Error(\"\")\n   }\n-  getEntity(): new (...args: any[]) => any {\n-    throw new Error(\"Method not implemented.\");\n+  protected async _get(entity_id: EntityId) {\n+    const item = this.items.find((item) => item.entity_id.equals(entity_id))\n   }\n+  async async findAll(): Promise<E[]> {\n+    return this.items\n+  }\n \n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694484939267,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,10 +24,11 @@\n     throw new Error(\"\")\n   }\n   protected async _get(entity_id: EntityId) {\n     const item = this.items.find((item) => item.entity_id.equals(entity_id))\n+    return typeof item === \"undefined\" ? null : item\n   }\n-  async async findAll(): Promise<E[]> {\n+  async findAll(): Promise<E[]> {\n     return this.items\n   }\n-\n+  abstract getEntity(): new (...args: any[]) => E\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694486176968,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,13 +16,17 @@\n   }\n   update(entity: E): Promise<void> {\n     throw new Error(\"Method not implemented.\");\n   }\n-  delete(entity_id: EntityId): Promise<any> {\n-    throw new Error(\"Method not implemented.\");\n+  async delete(entity_id: EntityId): Promise<any> {\n+    const indexFound = this.items.findIndex((item) => item.entity_id.equals(entity_id))\n+    if (indexFound === -1) {\n+      throw new Error(\"Entity not found\")\n+    }\n+    this.items.splice(indexFound, 1)\n   }\n-  findById(entity_id: E): Promise<any> {\n-    throw new Error(\"\")\n+  async findById(entity_id: EntityId): Promise<E | null> {\n+    return this._get(entity_id)\n   }\n   protected async _get(entity_id: EntityId) {\n     const item = this.items.find((item) => item.entity_id.equals(entity_id))\n     return typeof item === \"undefined\" ? null : item\n"
+                },
+                {
+                    "date": 1694486590521,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,6 +33,9 @@\n   }\n   async findAll(): Promise<E[]> {\n     return this.items\n   }\n-  abstract getEntity(): new (...args: any[]) => E\n+  protected _get(entity_id: EntityId) {\n+    const item = this.items.find((item) => item.entity_id.equals(entity_id))\n+    return typeof item === \"undefined\" ? null : item\n+  }\n }\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1694483440996,
+            "name": "Commit-0",
+            "content": "import { Entity } from \"../../domain/entity\";\nimport { ValueObject } from \"../../domain/value-object\";\nimport { IRepository } from \"../../repository/repository-interface\";\n\n\nexport class InMemoryRepository<E extends Entity, EntityId extends ValueObject> implements IRepository<E, EntityId>{\n  insert(entity: any): Promise<void> {\n    throw new Error(\"Method not implemented.\");\n  }\n  bulkInsert(entity: any): Promise<void> {\n    throw new Error(\"Method not implemented.\");\n  }\n  update(entity: any): Promise<void> {\n    throw new Error(\"Method not implemented.\");\n  }\n  delete(entity_id: any): Promise<any> {\n    throw new Error(\"Method not implemented.\");\n  }\n  findAll(): Promise<any[]> {\n    throw new Error(\"Method not implemented.\");\n  }\n  getEntity(): new (...args: any[]) => any {\n    throw new Error(\"Method not implemented.\");\n  }\n\n}"
+        }
+    ]
+}

@@ -1,5 +1,5 @@
 import { EntityValidationError } from '../../../shared/domain/validators/valitation.error'
-import { Uuid } from '../../../shared/domain/value-objects/uuid'
+import { Uuid } from '../../../shared/domain/value-objects/uuid.vo'
 import { Category } from '../category.entity'
 
 describe('Category Unit Tests', () => {
@@ -119,11 +119,31 @@ describe('Category Unit Tests', () => {
       expect(category.is_active).toBe(false)
       expect(validateSpy).toHaveBeenCalledTimes(1)
     })
+
+    test("should update a category", () => {
+      const category = Category.create({
+        name: "Movie",
+      })
+      category.update("Filmes", "description")
+      expect(category.name).toBe("Filmes")
+      expect(category.description).toBe("description")
+      expect(validateSpy).toHaveBeenCalledTimes(2)
+    })
   })
 })
 
 describe("Category Validator", () => {
   describe("create command", () => {
+    test('should an invalid category name property', () => {
+      expect(() => Category.create({ name: null })).containsErrorMessages({
+        name: [
+          "name should not be empty",
+          "name must be a string",
+          "name must be shorter than or equal to 255 characters"
+        ]
+      })
+    })
+
     test('should an invalid category name property', () => {
       expect(() => Category.create({ name: null })).containsErrorMessages({
         name: [

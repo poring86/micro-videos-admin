@@ -1,4 +1,4 @@
-import { InvalidUuidError, Uuid } from "../uuid"
+import { InvalidUuidError, Uuid } from "../uuid.vo"
 import { v4 as uuidv4, validate as uuidValidate } from "uuid"
 
 describe("Uuid Unit tests", () => {

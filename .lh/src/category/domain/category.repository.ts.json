@@ -1,0 +1,22 @@
+{
+    "sourceFile": "src/category/domain/category.repository.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1694474938087,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1694478367327,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,9 @@\n+import { Uuid } from \"../../shared/domain/value-objects/uuid\";\n+import { IRepository } from \"../../shared/repository/repository-interface\";\n import { Category } from \"./category.entity\";\n \n-export interface CategoryRepository {\n+export interface ICategoryRepository extends IRepository<Category, Uuid> {\n   insert(valueObject: ){\n \n }\n \n"
+                }
+            ],
+            "date": 1694474938087,
+            "name": "Commit-0",
+            "content": "import { Category } from \"./category.entity\";\n\nexport interface CategoryRepository {\n  insert(valueObject: ){\n\n}\n\nfind(): Category[]\n\ncount(): number\n}"
+        }
+    ]
+}
