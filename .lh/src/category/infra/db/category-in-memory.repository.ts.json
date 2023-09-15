@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/category/infra/db/category-in-memory.repository.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1694746322442,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1694746322442,
+            "name": "Commit-0",
+            "content": "import { Uuid } from \"../../../shared/domain/value-objects/uuid.vo\";\nimport { InMemoryRepository } from \"../../../shared/infra/db/in-memory/in-memory.repository\";\nimport { Category } from \"../../domain/category.entity\";\n\nexport class CategoryInMemoryRepository extends InMemoryRepository<Category, Uuid>{\n  getEntity(): new (...args: any[]) => Category {\n    return Category\n  }\n}"
+        }
+    ]
+}
