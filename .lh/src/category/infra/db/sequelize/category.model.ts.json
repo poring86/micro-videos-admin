@@ -3,11 +3,23 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 3,
             "patches": [
                 {
                     "date": 1694795987648,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1694805623707,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,9 @@\n-import { Column, DataType, Model, Table } from \"sequelize-typescript\"\n+import { Column, DataType, Model, PrimaryKey, Table } from \"sequelize-typescript\"\n \n @Table({ tableName: \"categories\", timestamps: false })\n export class CategoryModel extends Model {\n+  @PrimaryKey()\n   @Column({ type: DataType.UUID })\n   declare category_id: string\n \n   @Column({ allowNull: false, type: DataType.STRING(255) })\n"
+                },
+                {
+                    "date": 1694808607742,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n import { Column, DataType, Model, PrimaryKey, Table } from \"sequelize-typescript\"\n \n @Table({ tableName: \"categories\", timestamps: false })\n export class CategoryModel extends Model {\n-  @PrimaryKey()\n+  @PrimaryKey\n   @Column({ type: DataType.UUID })\n   declare category_id: string\n \n   @Column({ allowNull: false, type: DataType.STRING(255) })\n@@ -14,7 +14,7 @@\n \n   @Column({ allowNull: false, type: DataType.BOOLEAN })\n   declare is_active: boolean\n \n-  @Column({ allowNull: false, type: DataType.DATE(255) })\n+  @Column({ allowNull: false, type: DataType.DATE(3) })\n   declare created_at: Date\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694809092026,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,10 +8,10 @@\n \n   @Column({ allowNull: false, type: DataType.STRING(255) })\n   declare name: string\n \n-  @Column({ allowNull: false, type: DataType.TEXT })\n-  declare description: string | null\n+  @Column({ allowNull: true, type: DataType.TEXT })\n+  declare description: string | null;\n \n   @Column({ allowNull: false, type: DataType.BOOLEAN })\n   declare is_active: boolean\n \n"
                 }
             ],
             "date": 1694795987648,
