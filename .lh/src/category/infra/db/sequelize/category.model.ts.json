@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/category/infra/db/sequelize/category.model.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1694795987648,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1694795987648,
+            "name": "Commit-0",
+            "content": "import { Column, DataType, Model, Table } from \"sequelize-typescript\"\n\n@Table({ tableName: \"categories\", timestamps: false })\nexport class CategoryModel extends Model {\n  @Column({ type: DataType.UUID })\n  declare category_id: string\n\n  @Column({ allowNull: false, type: DataType.STRING(255) })\n  declare name: string\n\n  @Column({ allowNull: false, type: DataType.TEXT })\n  declare description: string | null\n\n  @Column({ allowNull: false, type: DataType.BOOLEAN })\n  declare is_active: boolean\n\n  @Column({ allowNull: false, type: DataType.DATE(255) })\n  declare created_at: Date\n}"
+        }
+    ]
+}

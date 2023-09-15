@@ -1,10 +1,20 @@
 import { Uuid } from "../../shared/domain/value-objects/uuid.vo";
-import { IRepository } from "../../shared/domain/repository/repository-interface";
+import { ISearchableRepository } from "../../shared/domain/repository/repository-interface";
 import { Category } from "./category.entity";
+import { SearchResult } from "../../shared/domain/repository/search-result";
+import { SearchParams } from "../../shared/domain/repository/search-params";
 
 export type CategoryFilter = string;
 
-export interface ICategoryRepository extends IRepository<Category, Uuid> {
+export class CategorySearchParams extends SearchParams<CategoryFilter> { }
 
+export class CategorySearchResult extends SearchResult<Category> { }
 
-}
+export interface ICategoryRepository
+  extends ISearchableRepository<
+    Category,
+    Uuid,
+    CategoryFilter,
+    CategorySearchParams,
+    CategorySearchResult
+  > { }

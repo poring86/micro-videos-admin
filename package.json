@@ -15,6 +15,7 @@
     "lodash": "^4.17.21",
     "sequelize": "^6.33.0",
     "sequelize-typescript": "^2.1.5",
+    "sqlite3": "^5.1.6",
     "uninstall": "^0.0.0",
     "uuid": "^9.0.0"
   },
