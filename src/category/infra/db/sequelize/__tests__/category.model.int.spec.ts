@@ -59,7 +59,7 @@ describe('CategoryModel Integration Tests', () => {
     expect(descriptionAttr).toMatchObject({
       field: "description",
       fieldName: "description",
-      allowNull: false,
+      allowNull: true,
       type: DataType.BOOLEAN()
     })
 

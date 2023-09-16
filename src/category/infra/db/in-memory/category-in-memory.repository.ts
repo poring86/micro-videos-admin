@@ -5,7 +5,6 @@ import { InMemorySearchableRepository } from "../../../../shared/infra/db/in-mem
 import { Category } from "../../../domain/category.entity";
 import { CategoryFilter, ICategoryRepository } from "../../../domain/category.repository";
 
-@Table({ tableName: 'categories', timestamps: false })
 export class CategoryInMemoryRepository
   extends InMemorySearchableRepository<Category, Uuid>
   implements ICategoryRepository {
