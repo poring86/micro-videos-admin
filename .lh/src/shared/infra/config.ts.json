@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/shared/infra/config.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1694985927350,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1694985927350,
+            "name": "Commit-0",
+            "content": "import { config as readEnv } from 'dotenv';\nimport { join } from 'path';\n\nexport class Config {\n  static env: any = null;\n\n  static db() {\n    Config.readEnv();\n\n    return {\n      dialect: 'sqlite' as any,\n      host: Config.env.DB_HOST,\n      logging: Config.env.DB_LOGGING === 'true',\n    };\n  }\n\n  static readEnv() {\n    if (Config.env) {\n      return;\n    }\n\n    Config.env = readEnv({\n      path: join(__dirname, `../../../envs/.env.${process.env.NODE_ENV}`),\n    }).parsed;\n  }\n}\n"
+        }
+    ]
+}
