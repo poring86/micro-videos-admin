@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 6,
+            "activePatchIndex": 7,
             "patches": [
                 {
                     "date": 1694956188567,
@@ -32,6 +32,10 @@
                 {
                     "date": 1694968735880,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -102,9 +102,9 @@\n       const spyToEntity = jest.spyOn(CategoryModelMapper, \"toEntity\");\n \n       const searchOutput = await repository.search(new CategorySearchParams());\n       expect(searchOutput).toBeInstanceOf(CategorySearchResult);\n-      // expect(spyToEntity).toHaveBeenCalledTimes(15);\n+      expect(spyToEntity).toHaveBeenCalledTimes(15);\n       expect(searchOutput.toJSON()).toMatchObject({\n         total: 16,\n         current_page: 1,\n         last_page: 2,\n"
+                },
+                {
+                    "date": 1694998127819,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,20 +5,14 @@\n import { Uuid } from \"../../../../../shared/domain/value-objects/uuid.vo\"\n import { NotFoundError } from \"../../../../../shared/domain/errors/not-found.error\"\n import { CategoryModelMapper } from \"../category-mapper\"\n import { CategorySearchParams, CategorySearchResult } from \"../../../../domain/category.repository\"\n+import { setupSequelize } from \"../../../../../shared/infra/testing/herpers\"\n \n describe(\"CategorySequelizeRepository integration test\", () => {\n-  let sequelize\n   let repository: CategorySequelizeRepository\n+  setupSequelize({ models: [CategoryModel] });\n   beforeEach(async () => {\n-    sequelize = new Sequelize({\n-      dialect: \"sqlite\",\n-      storage: \":memory:\",\n-      models: [CategoryModel],\n-      logging: false\n-    })\n-    await sequelize.sync({ force: true })\n     repository = new CategorySequelizeRepository(CategoryModel)\n   })\n \n   it(\"should inserts a new entity\", async () => {\n"
                 }
             ],
             "date": 1694956188567,

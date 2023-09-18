@@ -1,0 +1,42 @@
+{
+    "sourceFile": "src/shared/infra/testing/herpers.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 6,
+            "patches": [
+                {
+                    "date": 1694987162954,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1694987240609,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,15 +1,17 @@\n-import { Sequelize } from \"sequelize\"\n+import { Sequelize } from \"sequelize-typescript\"\n import { CategoryModel } from \"../../../category/infra/db/sequelize/category.model\"\n \n export function setupSequelize() {\n   let sequelize\n-  beforeEach(async () => {\n+  beforeAll(async () => {\n     sequelize = new Sequelize({\n       dialect: \"sqlite\",\n       storage: \":memory:\",\n       models: [CategoryModel],\n       logging: false\n     })\n     await sequelize.sync({ force: true })\n   })\n+\n+  afterAll(async () => await sequelize.close())\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694987260699,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n import { Sequelize } from \"sequelize-typescript\"\n import { CategoryModel } from \"../../../category/infra/db/sequelize/category.model\"\n \n export function setupSequelize() {\n-  let sequelize\n+  let sequelize: Sequelize\n   beforeAll(async () => {\n     sequelize = new Sequelize({\n       dialect: \"sqlite\",\n       storage: \":memory:\",\n"
+                },
+                {
+                    "date": 1694987293340,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,6 +12,8 @@\n     })\n     await sequelize.sync({ force: true })\n   })\n \n+  beforeEach(async () => await sequelize.sync({ force: true }))\n+\n   afterAll(async () => await sequelize.close())\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694988004350,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,15 +1,14 @@\n-import { Sequelize } from \"sequelize-typescript\"\n+import { Sequelize, SequelizeOptions } from \"sequelize-typescript\"\n import { CategoryModel } from \"../../../category/infra/db/sequelize/category.model\"\n+import { Config } from \"../config\"\n \n-export function setupSequelize() {\n+export function setupSequelize(options: SequelizeOptions = {}) {\n   let sequelize: Sequelize\n   beforeAll(async () => {\n     sequelize = new Sequelize({\n-      dialect: \"sqlite\",\n-      storage: \":memory:\",\n-      models: [CategoryModel],\n-      logging: false\n+      ...Config.db(),\n+      ...options\n     })\n     await sequelize.sync({ force: true })\n   })\n \n"
+                },
+                {
+                    "date": 1694988303577,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,5 @@\n import { Sequelize, SequelizeOptions } from \"sequelize-typescript\"\n-import { CategoryModel } from \"../../../category/infra/db/sequelize/category.model\"\n import { Config } from \"../config\"\n \n export function setupSequelize(options: SequelizeOptions = {}) {\n   let sequelize: Sequelize\n"
+                },
+                {
+                    "date": 1694988381177,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,17 +1,23 @@\n import { Sequelize, SequelizeOptions } from \"sequelize-typescript\"\n import { Config } from \"../config\"\n \n export function setupSequelize(options: SequelizeOptions = {}) {\n-  let sequelize: Sequelize\n+  let _sequelize: Sequelize\n   beforeAll(async () => {\n-    sequelize = new Sequelize({\n+    _sequelize = new Sequelize({\n       ...Config.db(),\n       ...options\n     })\n-    await sequelize.sync({ force: true })\n+    await _sequelize.sync({ force: true })\n   })\n \n-  beforeEach(async () => await sequelize.sync({ force: true }))\n+  beforeEach(async () => await _sequelize.sync({ force: true }))\n \n-  afterAll(async () => await sequelize.close())\n+  afterAll(async () => await _sequelize.close())\n+\n+  return {\n+    get sequelize() {\n+      return _sequelize\n+    }\n+  }\n }\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1694987162953,
+            "name": "Commit-0",
+            "content": "import { Sequelize } from \"sequelize\"\nimport { CategoryModel } from \"../../../category/infra/db/sequelize/category.model\"\n\nexport function setupSequelize() {\n  let sequelize\n  beforeEach(async () => {\n    sequelize = new Sequelize({\n      dialect: \"sqlite\",\n      storage: \":memory:\",\n      models: [CategoryModel],\n      logging: false\n    })\n    await sequelize.sync({ force: true })\n  })\n}"
+        }
+    ]
+}
