@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 7,
+            "activePatchIndex": 8,
             "patches": [
                 {
                     "date": 1694956188567,
@@ -36,6 +36,10 @@
                 {
                     "date": 1694998127819,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,20 +5,14 @@\n import { Uuid } from \"../../../../../shared/domain/value-objects/uuid.vo\"\n import { NotFoundError } from \"../../../../../shared/domain/errors/not-found.error\"\n import { CategoryModelMapper } from \"../category-mapper\"\n import { CategorySearchParams, CategorySearchResult } from \"../../../../domain/category.repository\"\n+import { setupSequelize } from \"../../../../../shared/infra/testing/herpers\"\n \n describe(\"CategorySequelizeRepository integration test\", () => {\n-  let sequelize\n   let repository: CategorySequelizeRepository\n+  setupSequelize({ models: [CategoryModel] });\n   beforeEach(async () => {\n-    sequelize = new Sequelize({\n-      dialect: \"sqlite\",\n-      storage: \":memory:\",\n-      models: [CategoryModel],\n-      logging: false\n-    })\n-    await sequelize.sync({ force: true })\n     repository = new CategorySequelizeRepository(CategoryModel)\n   })\n \n   it(\"should inserts a new entity\", async () => {\n"
+                },
+                {
+                    "date": 1694998691257,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,4 @@\n-import { Sequelize } from \"sequelize-typescript\"\n import { CategoryModel } from \"../category.model\"\n import { CategorySequelizeRepository } from \"../category-sequelize.repository\"\n import { Category } from \"../../../../domain/category.entity\"\n import { Uuid } from \"../../../../../shared/domain/value-objects/uuid.vo\"\n"
                 }
             ],
             "date": 1694956188567,

@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 3,
+            "activePatchIndex": 4,
             "patches": [
                 {
                     "date": 1694965683315,
@@ -20,6 +20,10 @@
                 {
                     "date": 1694998315492,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,8 +3,9 @@\n import { Uuid } from \"../../../../../shared/domain/value-objects/uuid.vo\";\n import { Category } from \"../../../../domain/category.entity\";\n import { CategoryModelMapper } from \"../category-mapper\";\n import { CategoryModel } from \"../category.model\";\n+import { setupSequelize } from \"../../../../../shared/infra/testing/herpers\";\n \n describe(\"CategoryModelMapper Integration Tests\", () => {\n   setupSequelize({ models: [CategoryModel] });\n \n"
+                },
+                {
+                    "date": 1694998679756,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,4 @@\n-import { Sequelize } from \"sequelize-typescript\";\n import { EntityValidationError } from \"../../../../../shared/domain/validators/valitation.error\";\n import { Uuid } from \"../../../../../shared/domain/value-objects/uuid.vo\";\n import { Category } from \"../../../../domain/category.entity\";\n import { CategoryModelMapper } from \"../category-mapper\";\n"
                 }
             ],
             "date": 1694965683315,

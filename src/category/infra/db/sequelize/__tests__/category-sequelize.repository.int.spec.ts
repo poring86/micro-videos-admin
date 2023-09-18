@@ -1,4 +1,3 @@
-import { Sequelize } from "sequelize-typescript"
 import { CategoryModel } from "../category.model"
 import { CategorySequelizeRepository } from "../category-sequelize.repository"
 import { Category } from "../../../../domain/category.entity"
