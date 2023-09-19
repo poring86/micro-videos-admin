@@ -1,9 +1,9 @@
-import { NotFoundError } from "../../../../shared/domain/errors/not-found.error";
-import { InvalidUuidError, Uuid } from "../../../../shared/domain/value-objects/uuid.vo";
-import { setupSequelize } from "../../../../shared/infra/testing/herpers";
-import { Category } from "../../../domain/category.entity";
-import { CategoryInMemoryRepository } from "../../../infra/db/in-memory/category-in-memory.repository";
-import { CategoryModel } from "../../../infra/db/sequelize/category.model";
+import { NotFoundError } from "../../../../../shared/domain/errors/not-found.error";
+import { InvalidUuidError, Uuid } from "../../../../../shared/domain/value-objects/uuid.vo";
+import { setupSequelize } from "../../../../../shared/infra/testing/herpers";
+import { Category } from "../../../../domain/category.entity";
+import { CategoryInMemoryRepository } from "../../../../infra/db/in-memory/category-in-memory.repository";
+import { CategoryModel } from "../../../../infra/db/sequelize/category.model";
 import { UpdateCategoryUseCase } from "../../update-category.usecase";
 
 describe('UpdateCategoryUseCase Unit Tests', () => {

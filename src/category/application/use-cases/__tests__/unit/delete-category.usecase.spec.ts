@@ -1,5 +1,5 @@
-import { Category } from "../../../domain/category.entity"
-import { CategoryInMemoryRepository } from "../../../infra/db/in-memory/category-in-memory.repository"
+import { Category } from "../../../../domain/category.entity"
+import { CategoryInMemoryRepository } from "../../../../infra/db/in-memory/category-in-memory.repository"
 import { DeleteCategoryUseCase } from "../../delete-category.usecase"
 
 describe("DeleteCategoryUseCase Unit Tests", () => {

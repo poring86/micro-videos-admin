@@ -1,11 +1,10 @@
 
-import { NotFoundError } from "../../../../shared/domain/errors/not-found.error";
-import { Uuid } from "../../../../shared/domain/value-objects/uuid.vo";
-import { setupSequelize } from "../../../../shared/infra/testing/herpers";
-import { Category } from "../../../domain/category.entity";
-import { CategoryInMemoryRepository } from "../../../infra/db/in-memory/category-in-memory.repository";
-import { CategorySequelizeRepository } from "../../../infra/db/sequelize/category-sequelize.repository";
-import { CategoryModel } from "../../../infra/db/sequelize/category.model";
+import { NotFoundError } from "../../../../../shared/domain/errors/not-found.error";
+import { Uuid } from "../../../../../shared/domain/value-objects/uuid.vo";
+import { setupSequelize } from "../../../../../shared/infra/testing/herpers";
+import { Category } from "../../../../domain/category.entity";
+import { CategorySequelizeRepository } from "../../../../infra/db/sequelize/category-sequelize.repository";
+import { CategoryModel } from "../../../../infra/db/sequelize/category.model";
 
 import { UpdateCategoryUseCase } from "../../update-category.usecase";
 
