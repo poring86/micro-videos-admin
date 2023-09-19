@@ -1,0 +1,42 @@
+{
+    "sourceFile": "src/category/application/use-cases/__tests__/unit/list-categories.usecase.spec.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 6,
+            "patches": [
+                {
+                    "date": 1695157142900,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1695157163349,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,8 +16,7 @@\n       items: [],\n       total: 1,\n       current_page: 1,\n       per_page: 2,\n-      last_page: 1\n     })\n   })\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1695157275879,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,6 +17,14 @@\n       total: 1,\n       current_page: 1,\n       per_page: 2,\n     })\n+    let output = useCase['toOutput'](result)\n+    expect(output).toStrictEqual({\n+      items: [],\n+      total: 1,\n+      current_page: 1,\n+      per_page: 2,\n+      last_page: 1\n+    })\n   })\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1695157462807,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,5 @@\n+import { Category } from \"../../../../domain/category.entity\"\n import { CategorySearchResult } from \"../../../../domain/category.repository\"\n import { CategoryInMemoryRepository } from \"../../../../infra/db/in-memory/category-in-memory.repository\"\n import { ListCategoriesUseCase } from \"../../list-category.usecase\"\n \n@@ -25,6 +26,14 @@\n       current_page: 1,\n       per_page: 2,\n       last_page: 1\n     })\n+\n+    const entity = Category.create({ name: 'Movie' })\n+    result = new CategorySearchResult({\n+      items: [entity],\n+      total: 1,\n+      current_page: 1,\n+      per_page: 2\n+    })\n   })\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1695157548194,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,8 @@\n import { Category } from \"../../../../domain/category.entity\"\n import { CategorySearchResult } from \"../../../../domain/category.repository\"\n import { CategoryInMemoryRepository } from \"../../../../infra/db/in-memory/category-in-memory.repository\"\n+import { CategoryOutputMapper } from \"../../common/category-output\"\n import { ListCategoriesUseCase } from \"../../list-category.usecase\"\n \n describe('ListCategoriesUseCase Unit Tests', () => {\n   let useCase: ListCategoriesUseCase\n@@ -34,6 +35,15 @@\n       total: 1,\n       current_page: 1,\n       per_page: 2\n     })\n+\n+    output = useCase['toOutput'](result)\n+    expect(output).toStrictEqual({\n+      items: [entity].map(CategoryOutputMapper.toOutput),\n+      total: 1,\n+      current_page: 1,\n+      per_page: 2,\n+      last_page: 1\n+    })\n   })\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1695157650860,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -45,5 +45,25 @@\n       per_page: 2,\n       last_page: 1\n     })\n   })\n+\n+  it('should return output sorted by created_at when input param is empty', async () => {\n+    const items = [\n+      new Category({ name: 'test 1' }),\n+      new Category({\n+        name: 'test 2',\n+        created_at: new Date(new Date().getTime() + 100),\n+      }),\n+    ];\n+    repository.items = items;\n+\n+    const output = await useCase.execute({});\n+    expect(output).toStrictEqual({\n+      items: [...items].reverse().map(CategoryOutputMapper.toOutput),\n+      total: 2,\n+      current_page: 1,\n+      per_page: 15,\n+      last_page: 1,\n+    });\n+  });\n })\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1695157670506,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -65,5 +65,67 @@\n       per_page: 15,\n       last_page: 1,\n     });\n   });\n+\n+  it('should return output using pagination, sort and filter', async () => {\n+    const items = [\n+      new Category({ name: 'a' }),\n+      new Category({\n+        name: 'AAA',\n+      }),\n+      new Category({\n+        name: 'AaA',\n+      }),\n+      new Category({\n+        name: 'b',\n+      }),\n+      new Category({\n+        name: 'c',\n+      }),\n+    ];\n+    repository.items = items;\n+\n+    let output = await useCase.execute({\n+      page: 1,\n+      per_page: 2,\n+      sort: 'name',\n+      filter: 'a',\n+    });\n+    expect(output).toStrictEqual({\n+      items: [items[1], items[2]].map(CategoryOutputMapper.toOutput),\n+      total: 3,\n+      current_page: 1,\n+      per_page: 2,\n+      last_page: 2,\n+    });\n+\n+    output = await useCase.execute({\n+      page: 2,\n+      per_page: 2,\n+      sort: 'name',\n+      filter: 'a',\n+    });\n+    expect(output).toStrictEqual({\n+      items: [items[0]].map(CategoryOutputMapper.toOutput),\n+      total: 3,\n+      current_page: 2,\n+      per_page: 2,\n+      last_page: 2,\n+    });\n+\n+    output = await useCase.execute({\n+      page: 1,\n+      per_page: 2,\n+      sort: 'name',\n+      sort_dir: 'desc',\n+      filter: 'a',\n+    });\n+    expect(output).toStrictEqual({\n+      items: [items[0], items[2]].map(CategoryOutputMapper.toOutput),\n+      total: 3,\n+      current_page: 1,\n+      per_page: 2,\n+      last_page: 2,\n+    });\n+  });\n })\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1695157142899,
+            "name": "Commit-0",
+            "content": "import { CategorySearchResult } from \"../../../../domain/category.repository\"\nimport { CategoryInMemoryRepository } from \"../../../../infra/db/in-memory/category-in-memory.repository\"\nimport { ListCategoriesUseCase } from \"../../list-category.usecase\"\n\ndescribe('ListCategoriesUseCase Unit Tests', () => {\n  let useCase: ListCategoriesUseCase\n  let repository: CategoryInMemoryRepository\n\n  beforeEach(() => {\n    repository = new CategoryInMemoryRepository()\n    useCase = new ListCategoriesUseCase(repository)\n  })\n\n  test('toOutput method', () => {\n    let result = new CategorySearchResult({\n      items: [],\n      total: 1,\n      current_page: 1,\n      per_page: 2,\n      last_page: 1\n    })\n  })\n})"
+        }
+    ]
+}

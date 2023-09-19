@@ -1,0 +1,54 @@
+{
+    "sourceFile": "src/shared/application/pagination-output.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 9,
+            "patches": [
+                {
+                    "date": 1695134458790,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1695134973700,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,20 @@\n+import { SearchParams } from \"../domain/repository/search-params\"\n+import { SearchResult } from \"../domain/repository/search-result\"\n+\n export type PaginationOutput = {\n   items: any[]\n   total: number\n   current_page: number\n   last_page: number\n   per_page: number\n+}\n+\n+export class PaginationOutputMapper {\n+  static toOutput(items: any[], props: SearchResult): PaginationOutput {\n+    return {\n+      items,\n+      total: props.total,\n+      current_page: props.current_page\n+    }\n+  }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1695135104889,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,8 +13,10 @@\n   static toOutput(items: any[], props: SearchResult): PaginationOutput {\n     return {\n       items,\n       total: props.total,\n-      current_page: props.current_page\n+      current_page: props.current_page,\n+      last_page: props.last_page,\n+      per_page: props.per_page\n     }\n   }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1695135143985,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n import { SearchParams } from \"../domain/repository/search-params\"\n import { SearchResult } from \"../domain/repository/search-result\"\n \n-export type PaginationOutput = {\n+export type PaginationOutput<Item = any> = {\n   items: any[]\n   total: number\n   current_page: number\n   last_page: number\n"
+                },
+                {
+                    "date": 1695135149966,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,4 @@\n-import { SearchParams } from \"../domain/repository/search-params\"\n import { SearchResult } from \"../domain/repository/search-result\"\n \n export type PaginationOutput<Item = any> = {\n   items: any[]\n"
+                },
+                {
+                    "date": 1695135166302,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n import { SearchResult } from \"../domain/repository/search-result\"\n \n export type PaginationOutput<Item = any> = {\n-  items: any[]\n+  items: Item[]\n   total: number\n   current_page: number\n   last_page: number\n   per_page: number\n"
+                },
+                {
+                    "date": 1695135197281,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n   per_page: number\n }\n \n export class PaginationOutputMapper {\n-  static toOutput(items: any[], props: SearchResult): PaginationOutput {\n+  static toOutput<Item = any>(items: any[], props: SearchResult): PaginationOutput {\n     return {\n       items,\n       total: props.total,\n       current_page: props.current_page,\n"
+                },
+                {
+                    "date": 1695135281226,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n   per_page: number\n }\n \n export class PaginationOutputMapper {\n-  static toOutput<Item = any>(items: any[], props: SearchResult): PaginationOutput {\n+  static toOutput<Item = any>(items: Item[], props: SearchResult): PaginationOutput {\n     return {\n       items,\n       total: props.total,\n       current_page: props.current_page,\n"
+                },
+                {
+                    "date": 1695135344717,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n   per_page: number\n }\n \n export class PaginationOutputMapper {\n-  static toOutput<Item = any>(items: Item[], props: SearchResult): PaginationOutput {\n+  static toOutput<Item = any>(items: Item[], props: SearchResult): PaginationOutput<Item> {\n     return {\n       items,\n       total: props.total,\n       current_page: props.current_page,\n"
+                },
+                {
+                    "date": 1695153727818,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n   per_page: number\n }\n \n export class PaginationOutputMapper {\n-  static toOutput<Item = any>(items: Item[], props: SearchResult): PaginationOutput<Item> {\n+  static toOutput<Item = any>(items: Item[], props: Omit<SearchResult, \"items\">): PaginationOutput<Item> {\n     return {\n       items,\n       total: props.total,\n       current_page: props.current_page,\n"
+                }
+            ],
+            "date": 1695134458790,
+            "name": "Commit-0",
+            "content": "export type PaginationOutput = {\n  items: any[]\n  total: number\n  current_page: number\n  last_page: number\n  per_page: number\n}"
+        }
+    ]
+}
