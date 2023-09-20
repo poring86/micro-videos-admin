@@ -3,11 +3,15 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 1,
             "patches": [
                 {
                     "date": 1694359137639,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1695211854523,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,11 +1,11 @@\n-export type FieldsErrors = {\n-  [field: string]: string[];\n-};\n+import { Notification } from \"./notification\";\n \n-export interface ValidatorFieldsInterface<PropsValidated> {\n-  errors: FieldsErrors;\n-  validatedData: PropsValidated;\n-  validate(data: any): boolean;\n-}\n+export type FieldsErrors =\n\\ No newline at end of file\n+  | {\n+    [field: string]: string[];\n+  }\n+  | string;\n \n-export default ValidatorFieldsInterface;\n+export interface IValidatorFields {\n+  validate(notification: Notification, data: any, fields: string[]): boolean;\n+}\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1694359137639,

@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 2,
+            "activePatchIndex": 4,
             "patches": [
                 {
                     "date": 1694955180013,
@@ -16,6 +16,14 @@
                 {
                     "date": 1694966088365,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,8 +20,8 @@\n       description: model.description,\n       is_active: model.is_active,\n       created_at: model.created_at,\n     });\n-    Category.validate()\n+    Category.validate(entity)\n     return entity\n   }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1695223480873,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,15 +13,19 @@\n     })\n   }\n \n   static toEntity(model: CategoryModel): Category {\n-    const entity = new Category({\n+    const category = new Category({\n       category_id: new Uuid(model.category_id),\n       name: model.name,\n       description: model.description,\n       is_active: model.is_active,\n       created_at: model.created_at,\n     });\n-    Category.validate(entity)\n-    return entity\n+\n+    category.validate();\n+    if (category.notification.hasErrors()) {\n+      throw new EntityValidationError(category.notification.toJSON());\n+    }\n+    return category;\n   }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1695225494786,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,5 @@\n+import { EntityValidationError } from \"../../../../shared/domain/validators/valitation.error\";\n import { Uuid } from \"../../../../shared/domain/value-objects/uuid.vo\";\n import { Category } from \"../../../domain/category.entity\";\n import { CategoryModel } from \"./category.model\";\n \n"
                 }
             ],
             "date": 1694955180013,

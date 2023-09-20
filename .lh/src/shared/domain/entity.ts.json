@@ -3,11 +3,15 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 1,
             "patches": [
                 {
                     "date": 1694469388400,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1695213556943,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,10 @@\n import { ValueObject } from \"./value-object\";\n+import { Notification } from \"./validators/notification\";\n \n \n export abstract class Entity {\n+  notification: Notification = new Notification();\n+\n   abstract get entity_id(): ValueObject\n   abstract toJSON(): any\n }\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1694469388400,

@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 23,
+            "activePatchIndex": 29,
             "patches": [
                 {
                     "date": 1694299548942,
@@ -100,6 +100,30 @@
                 {
                     "date": 1694469840622,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -50,10 +50,11 @@\n   }\n \n   update(name: string, description: string) {\n     this.name = name\n+    this.description = description\n \n-    this.description = description\n+    Category.validate(this)\n   }\n \n   changeName(name: string): void {\n \n"
+                },
+                {
+                    "date": 1695213059094,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,10 @@\n \n import { Entity } from \"../../shared/domain/entity\";\n import { EntityValidationError } from \"../../shared/domain/validators/valitation.error\";\n import { ValueObject } from \"../../shared/domain/value-object\";\n-import { Uuid } from \"../../shared/domain/value-objects/uuid\";\n+import { Uuid } from \"../../shared/domain/value-objects/uuid.vo\";\n+import { CategoryFakeBuilder } from \"./category-fake.builder\";\n import { CategoryValidatorFactory } from \"./category.validator\";\n \n \n export type CategoryConstructorProps = {\n@@ -45,8 +46,9 @@\n \n   static create(props: CategoryConstructorProps): Category {\n     const category = new Category(props)\n     Category.validate(category)\n+    Category.validate(category)\n     return category\n   }\n \n   update(name: string, description: string) {\n@@ -83,8 +85,12 @@\n       throw new EntityValidationError(validator.errors)\n     }\n   }\n \n+  static fake() {\n+    return CategoryFakeBuilder;\n+  }\n+\n   toJSON() {\n     return {\n       category_id: this.category_id.id,\n       name: this.name,\n"
+                },
+                {
+                    "date": 1695213176655,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -44,12 +44,12 @@\n     return this.category_id\n   }\n \n   static create(props: CategoryConstructorProps): Category {\n-    const category = new Category(props)\n-    Category.validate(category)\n-    Category.validate(category)\n-    return category\n+    const category = new Category(props);\n+    //category.validate();\n+    category.validate(['name']);\n+    return category;\n   }\n \n   update(name: string, description: string) {\n     this.name = name\n"
+                },
+                {
+                    "date": 1695213414604,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -76,15 +76,11 @@\n   deactivate() {\n     this.is_active = false\n   }\n \n-  static validate(entity: Category) {\n-    const validator = CategoryValidatorFactory.create()\n-    const isValid = validator.validate(entity)\n-\n-    if (!isValid) {\n-      throw new EntityValidationError(validator.errors)\n-    }\n+  validate(fields?: string[]) {\n+    const validator = CategoryValidatorFactory.create();\n+    return validator.validate(this.notification, this, fields);\n   }\n \n   static fake() {\n     return CategoryFakeBuilder;\n"
+                },
+                {
+                    "date": 1695213527131,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -50,24 +50,16 @@\n     category.validate(['name']);\n     return category;\n   }\n \n-  update(name: string, description: string) {\n-    this.name = name\n-    this.description = description\n-\n-    Category.validate(this)\n-  }\n-\n   changeName(name: string): void {\n \n     this.name = name\n-    Category.validate(this)\n+    this.validate(['name']);\n   }\n \n   changeDescription(description: string): void {\n     this.description = description\n-    Category.validate(this)\n   }\n \n   activate() {\n     this.is_active = true\n"
+                },
+                {
+                    "date": 1695224813611,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,51 +23,49 @@\n   created_at: Date\n }\n \n export class Category extends Entity {\n+  category_id: Uuid;\n+  name: string;\n+  description: string | null;\n+  is_active: boolean;\n+  created_at: Date;\n \n-  category_id: Uuid\n-  name: string\n-  description: string | null\n-  is_active: boolean\n-  created_at: Date\n-\n   constructor(props: CategoryConstructorProps) {\n-    super()\n-    this.category_id = props.category_id ?? new Uuid()\n-    this.name = props.name\n-    this.description = props.description ?? null\n-    this.is_active = props.is_active ?? true\n-    this.created_at = props.created_at ?? new Date()\n+    super();\n+    this.category_id = props.category_id ?? new Uuid();\n+    this.name = props.name;\n+    this.description = props.description ?? null;\n+    this.is_active = props.is_active ?? true;\n+    this.created_at = props.created_at ?? new Date();\n   }\n \n   get entity_id(): ValueObject {\n-    return this.category_id\n+    return this.category_id;\n   }\n \n-  static create(props: CategoryConstructorProps): Category {\n+  static create(props: CategoryCreateCommand): Category {\n     const category = new Category(props);\n     //category.validate();\n     category.validate(['name']);\n     return category;\n   }\n \n   changeName(name: string): void {\n-\n-    this.name = name\n+    this.name = name;\n     this.validate(['name']);\n   }\n \n   changeDescription(description: string): void {\n-    this.description = description\n+    this.description = description;\n   }\n \n   activate() {\n-    this.is_active = true\n+    this.is_active = true;\n   }\n \n   deactivate() {\n-    this.is_active = false\n+    this.is_active = false;\n   }\n \n   validate(fields?: string[]) {\n     const validator = CategoryValidatorFactory.create();\n@@ -83,8 +81,8 @@\n       category_id: this.category_id.id,\n       name: this.name,\n       description: this.description,\n       is_active: this.is_active,\n-      created_at: this.created_at\n-    }\n+      created_at: this.created_at,\n+    };\n\\ No newline at end of file\n   }\n-}\n+}\n"
+                },
+                {
+                    "date": 1695224832411,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,23 +7,22 @@\n import { CategoryValidatorFactory } from \"./category.validator\";\n \n \n export type CategoryConstructorProps = {\n-  category_id?: Uuid\n+  category_id?: Uuid;\n   name: string;\n-  description?: string | null\n-  is_active?: boolean\n-  created_at?: Date\n-}\n+  description?: string | null;\n+  is_active?: boolean;\n+  created_at?: Date;\n+};\n \n export type CategoryCreateCommand = {\n-  category_id: string\n-  name: string\n-  description: string | null\n-  is_active: boolean\n-  created_at: Date\n-}\n+  name: string;\n+  description?: string | null;\n+  is_active?: boolean;\n+};\n \n+\n export class Category extends Entity {\n   category_id: Uuid;\n   name: string;\n   description: string | null;\n@@ -84,5 +83,5 @@\n       is_active: this.is_active,\n       created_at: this.created_at,\n     };\n   }\n-}\n\\ No newline at end of file\n+}\n"
                 }
             ],
             "date": 1694299548942,

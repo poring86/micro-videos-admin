@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 3,
+            "activePatchIndex": 6,
             "patches": [
                 {
                     "date": 1694447186276,
@@ -20,6 +20,18 @@
                 {
                     "date": 1694458983108,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,5 +5,5 @@\n     interface Matchers<R> {\n       containsErrorMessages: (expected: FieldsErrors) => R;\n     }\n   }\n-}\n\\ No newline at end of file\n+}\n"
+                },
+                {
+                    "date": 1695219782073,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,8 +2,10 @@\n \n declare global {\n   namespace jest {\n     interface Matchers<R> {\n-      containsErrorMessages: (expected: FieldsErrors) => R;\n+      notificationContainsErrorMessages: (\n+        expected: Array<string | { [key: string]: string }>,) => R\n+\n     }\n   }\n }\n"
+                },
+                {
+                    "date": 1695219789945,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n declare global {\n   namespace jest {\n     interface Matchers<R> {\n       notificationContainsErrorMessages: (\n-        expected: Array<string | { [key: string]: string }>,) => R\n+        expected: Array<string | { [key: string]: string }>) => R\n \n     }\n   }\n }\n"
+                },
+                {
+                    "date": 1695225443296,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,10 +2,11 @@\n \n declare global {\n   namespace jest {\n     interface Matchers<R> {\n+      //containsErrorMessages: (expected: FieldsErrors) => R;\n       notificationContainsErrorMessages: (\n-        expected: Array<string | { [key: string]: string }>) => R\n-\n+        expected: Array<string | { [key: string]: string[] }>,\n+      ) => R;\n     }\n   }\n }\n"
                 }
             ],
             "date": 1694447186276,
