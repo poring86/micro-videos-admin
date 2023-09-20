@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/category/application/use-cases/__tests__/unit/create-category.usecase.spec.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1695233964386,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1695233964386,
+            "name": "Commit-0",
+            "content": "import { CategoryInMemoryRepository } from \"../../../../infra/db/in-memory/category-in-memory.repository\";\nimport { CreateCategoryUseCase } from \"../../create-category/create-category.usecase\";\n\ndescribe('CreateCategoryUseCase Unit Tests', () => {\n  let useCase: CreateCategoryUseCase;\n  let repository: CategoryInMemoryRepository;\n\n  beforeEach(() => {\n    repository = new CategoryInMemoryRepository();\n    useCase = new CreateCategoryUseCase(repository);\n  });\n\n  it('should create a category', async () => {\n    const spyInsert = jest.spyOn(repository, 'insert');\n    let output = await useCase.execute({ name: 'test' });\n    expect(spyInsert).toHaveBeenCalledTimes(1);\n    expect(output).toStrictEqual({\n      id: repository.items[0].category_id.id,\n      name: 'test',\n      description: null,\n      is_active: true,\n      created_at: repository.items[0].created_at,\n    });\n\n    output = await useCase.execute({\n      name: 'test',\n      description: 'some description',\n      is_active: false,\n    });\n    expect(spyInsert).toHaveBeenCalledTimes(2);\n    expect(output).toStrictEqual({\n      id: repository.items[1].category_id.id,\n      name: 'test',\n      description: 'some description',\n      is_active: false,\n      created_at: repository.items[1].created_at,\n    });\n  });\n})"
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/category/application/use-cases/__tests__/unit/delete-category.usecase.spec.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1695247445535,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1695247445535,
+            "name": "Commit-0",
+            "content": "import { Category } from \"../../../../domain/category.entity\"\nimport { CategoryInMemoryRepository } from \"../../../../infra/db/in-memory/category-in-memory.repository\"\nimport { DeleteCategoryUseCase } from \"../../delete-category/delete-category.usecase\"\n\ndescribe(\"DeleteCategoryUseCase Unit Tests\", () => {\n  let useCase: DeleteCategoryUseCase\n  let repository: CategoryInMemoryRepository\n\n  beforeEach(() => {\n    repository = new CategoryInMemoryRepository()\n    useCase = new DeleteCategoryUseCase(repository)\n  })\n\n  it(\"should throws error when entity not found\", async () => {\n    const items = [new Category({ name: \"test 1\" })]\n    repository.items = items\n    await useCase.execute({\n      id: items[0].category_id.id\n    })\n  })\n\n  it(\"should delete a category\", async () => {\n    const items = [new Category({ name: \"test 1\" })]\n    repository.items = items\n    await useCase.execute({\n      id: items[0].category_id.id\n    })\n    expect(repository.items).toHaveLength(0)\n  })\n})"
+        }
+    ]
+}

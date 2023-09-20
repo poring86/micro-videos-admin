@@ -3,11 +3,15 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 1,
             "patches": [
                 {
                     "date": 1695157738535,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1695247972613,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n import { Category } from \"../../../../domain/category.entity\";\n import { CategorySequelizeRepository } from \"../../../../infra/db/sequelize/category-sequelize.repository\";\n import { CategoryModel } from \"../../../../infra/db/sequelize/category.model\";\n import { CategoryOutputMapper } from \"../../common/category-output\";\n-import { ListCategoriesUseCase } from \"../../list-category.usecase\";\n+import { ListCategoriesUseCase } from \"../../list-category/list-category.usecase\";\n \n describe('ListCategoriesUseCase Integration Tests', () => {\n   let useCase: ListCategoriesUseCase;\n   let repository: CategorySequelizeRepository;\n"
                 }
             ],
             "date": 1695157738535,
