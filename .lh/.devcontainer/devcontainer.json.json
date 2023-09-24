@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 4,
+            "activePatchIndex": 5,
             "patches": [
                 {
                     "date": 1694116991338,
@@ -24,6 +24,10 @@
                 {
                     "date": 1694199947502,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,9 +23,9 @@\n     \"ghcr.io/stuartleeks/dev-container-features/shell-history:0\": {}\n   },\n   \"customizations\": {\n     \"vscode\": {\n-      \"extensions\": [\"Orta.vscode-jest\"]\n+      \"extensions\": [\"Orta.vscode-jest\", \"firsttris.vscode-jest-runner\"]\n     }\n   }\n \n   // Features to add to the dev container. More info: https://containers.dev/features.\n"
+                },
+                {
+                    "date": 1695501775561,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n   \"name\": \"Micro Videos Admin\",\n \n   // Update the 'dockerComposeFile' list if you have more compose files or use different names.\n   // The .devcontainer/docker-compose.yml file contains any overrides you need/want to make.\n-  \"dockerComposeFile\": [\"../docker-compose.yaml\", \"docker-compose.yml\"],\n+  \"dockerComposeFile\": [\"../docker-compose.dev.yaml\", \"docker-compose.yml\"],\n \n   // The 'service' property is the name of the service for the container that VS Code should\n   // use. Update this value and .devcontainer/docker-compose.yml to the real service name.\n   \"service\": \"app\",\n"
                 }
             ],
             "date": 1694116991338,

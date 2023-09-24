@@ -3,8 +3,8 @@ import { CategoriesController } from './categories.controller';
 
 import { CategoriesModule } from './categories.module';
 
-import { DatabaseModule } from 'src/database/database.module';
-import { ConfigModule } from 'src/config/config.module';
+import { DatabaseModule } from '../database-module/database.module';
+import { ConfigModule } from '../config-module/config.module';
 
 
 describe('CategoriesController', () => {
