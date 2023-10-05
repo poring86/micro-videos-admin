@@ -1,6 +1,5 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Inject } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Inject, UsePipes, ValidationPipe } from '@nestjs/common';
 
-import { CategorySequelizeRepository } from '@core/category/infra/db/sequelize/category-sequelize.repository';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { CreateCategoryUseCase } from '@core/category/application/use-cases/create-category/create-category.usecase';
@@ -8,6 +7,8 @@ import { UpdateCategoryUseCase } from '@core/category/application/use-cases/upda
 import { DeleteCategoryUseCase } from '@core/category/application/use-cases/delete-category/delete-category.usecase';
 import { GetCategoryUseCase } from '@core/category/application/use-cases/get-category/get-category.usecase';
 import { ListCategoriesUseCase } from '@core/category/application/use-cases/list-category/list-category.usecase';
+import { CategoryPresenter } from './categories.presenter';
+import { CategoryOutput } from '@core/category/application/use-cases/common/category-output';
 
 @Controller('categories')
 export class CategoriesController {
@@ -27,9 +28,11 @@ export class CategoriesController {
   @Inject(ListCategoriesUseCase)
   private listUseCase: ListCategoriesUseCase
 
-  @Post()
-  create(@Body() createCategoryDto: CreateCategoryDto) {
 
+  @Post()
+  async create(@Body() createCategoryDto: CreateCategoryDto) {
+    const output = await this.createUseCase.execute(createCategoryDto)
+    return new CategoryPresenter(output)
   }
 
   @Get()
@@ -50,5 +53,9 @@ export class CategoriesController {
   @Delete(':id')
   remove(@Param('id') id: string) {
 
+  }
+
+  static serialize(output: CategoryOutput) {
+    return new CategoryPresenter(output)
   }
 }
