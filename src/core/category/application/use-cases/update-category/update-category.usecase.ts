@@ -16,8 +16,8 @@ export class UpdateCategoryUseCase implements IUseCase<UpdateCategoryInput, Upda
     }
 
     input.name && category.changeName(input.name)
-    if ("description" in input) {
-      category.changeDescription(input.description)
+    if (input.description !== undefined) {
+      category.changeDescription(input.description);
     }
 
     if (input.is_active === true) {

@@ -12,7 +12,7 @@ import { getModelToken } from "@nestjs/sequelize";
 export const REPOSITORIES = {
   CATEGORY_REPOSITORY: {
     provide: 'CategoryRepository',
-    useClass: CategorySequelizeRepository,
+    useExisting: CategorySequelizeRepository,
   },
   CATEGORY_IN_MEMORY_REPOSITORY: {
     provide: CategoryInMemoryRepository,

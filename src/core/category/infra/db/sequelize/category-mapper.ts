@@ -10,9 +10,10 @@ export class CategoryModelMapper {
       name: entity.name,
       description: entity.description,
       is_active: entity.is_active,
-      created_at: entity.created_at
-    })
+      created_at: entity.created_at,
+    });
   }
+
 
   static toEntity(model: CategoryModel): Category {
     const category = new Category({

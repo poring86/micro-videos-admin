@@ -19,20 +19,64 @@ export class CreateCategoryFixture {
     const faker = Category.fake()
       .aCategory()
       .withName('Movie')
-      .withDescription('description test')
-
+      .withDescription('description test');
     return [
       {
         send_data: {
-          name: faker.name
+          name: faker.name,
         },
         expected: {
           name: faker.name,
           description: null,
-          is_active: true
-        }
-      }
-    ]
+          is_active: true,
+        },
+      },
+      {
+        send_data: {
+          name: faker.name,
+          description: faker.description,
+        },
+        expected: {
+          name: faker.name,
+          description: faker.description,
+          is_active: true,
+        },
+      },
+      {
+        send_data: {
+          name: faker.name,
+          is_active: true,
+        },
+        expected: {
+          name: faker.name,
+          description: null,
+          is_active: true,
+        },
+      },
+      {
+        send_data: {
+          name: faker.name,
+          is_active: false,
+        },
+        expected: {
+          name: faker.name,
+          description: null,
+          is_active: false,
+        },
+      },
+      {
+        send_data: {
+          name: faker.name,
+          description: faker.description,
+          is_active: true,
+        },
+        expected: {
+          name: faker.name,
+          description: faker.description,
+          is_active: true,
+        },
+      },
+    ];
   }
 
   static arrangeInvalidRequest() {
@@ -253,6 +297,7 @@ export class ListCategoriesFixture {
       .theCategories(4)
       .withName((i) => i + '')
       .withCreatedAt((i) => new Date(new Date().getTime() + i * 2000))
+      .build();
 
     const entitiesMap = {
       first: _entities[0],
