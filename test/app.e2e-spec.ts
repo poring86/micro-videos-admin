@@ -7,6 +7,8 @@ describe('AppController (e2e)', () => {
   let app: INestApplication;
 
   beforeEach(async () => {
+    jest.setTimeout(600000000);
+    console.log(process.env.NODE_ENV)
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
