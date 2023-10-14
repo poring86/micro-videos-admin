@@ -2,7 +2,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { CategoriesController } from "../categories.controller";
 import { DatabaseModule } from "../../database-module/database.module";
 import { ConfigModule } from '../../config-module/config.module';
-import { CATEGORY_PROVIDERS } from "../category.providers";
+import { CATEGORY_PROVIDERS } from "../categories.providers";
 import { ICategoryRepository } from "@core/category/domain/category.repository";
 import { CategoriesModule } from "../categories.module";
 import { CreateCategoryUseCase } from "@core/category/application/use-cases/create-category/create-category.usecase";

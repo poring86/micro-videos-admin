@@ -32,6 +32,7 @@ export class CategoriesController {
 
   @Post()
   async create(@Body() createCategoryDto: CreateCategoryDto) {
+    console.log('createCategoryDto', createCategoryDto)
     const output = await this.createUseCase.execute(createCategoryDto)
     return new CategoryPresenter(output)
   }

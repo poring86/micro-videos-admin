@@ -4,7 +4,7 @@ import { Category } from "../../../../domain/category.entity";
 import { CategoryModelMapper } from "../category-mapper";
 import { CategoryModel } from "../category.model";
 import { setupSequelize } from "../../../../../shared/infra/testing/herpers";
-import { EntityValidationError } from "../../../../../shared/domain/validators/valitation.error";
+import { EntityValidationError } from "../../../../../shared/domain/validators/validation.error";
 
 describe("CategoryModelMapper Integration Tests", () => {
   setupSequelize({ models: [CategoryModel] });
