@@ -11,7 +11,6 @@ const config: Config = {
     '^.+\\.(t|j)s$': '@swc/jest',
   },
   setupFilesAfterEnv: ['./jest-setup.ts'],
-  testTimeout: 2000000000
 };
 
 export default config;
