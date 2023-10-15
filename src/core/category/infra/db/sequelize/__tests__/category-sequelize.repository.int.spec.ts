@@ -1,34 +1,25 @@
-import { CategoryModel } from "../category.model"
-import { CategorySequelizeRepository } from "../category-sequelize.repository"
-import { Category } from "../../../../domain/category.entity"
-import { Uuid } from "../../../../../shared/domain/value-objects/uuid.vo"
-import { NotFoundError } from "../../../../../shared/domain/errors/not-found.error"
-import { CategoryModelMapper } from "../category-mapper"
-import { CategorySearchParams, CategorySearchResult } from "../../../../domain/category.repository"
-import { setupSequelize } from "../../../../../shared/infra/testing/herpers"
+import { CategoryModel } from "../category.model";
+import { CategorySequelizeRepository } from "../category-sequelize.repository";
+import { Category } from "../../../../domain/category.entity";
+import { Uuid } from "../../../../../shared/domain/value-objects/uuid.vo";
+import { NotFoundError } from "../../../../../shared/domain/errors/not-found.error";
+import { CategoryModelMapper } from "../category-model-mapper";
+import { CategorySearchParams, CategorySearchResult } from "../../../../domain/category.repository";
+import { setupSequelize } from "../../../../../shared/infra/testing/helpers";
 
-describe("CategorySequelizeRepository integration test", () => {
-  let repository: CategorySequelizeRepository
+describe("CategorySequelizeRepository Integration Test", () => {
+  let repository: CategorySequelizeRepository;
   setupSequelize({ models: [CategoryModel] });
+
   beforeEach(async () => {
-    repository = new CategorySequelizeRepository(CategoryModel)
-  })
+    repository = new CategorySequelizeRepository(CategoryModel);
+  });
 
   it("should inserts a new entity", async () => {
     let category = Category.fake().aCategory().build();
     await repository.insert(category);
     let entity = await repository.findById(category.category_id);
     expect(entity.toJSON()).toStrictEqual(category.toJSON());
-  });
-
-  it("should finds a entity by id", async () => {
-    let entityFound = await repository.findById(new Uuid());
-    expect(entityFound).toBeNull();
-
-    const entity = Category.fake().aCategory().build();
-    await repository.insert(entity);
-    entityFound = await repository.findById(entity.category_id);
-    expect(entity.toJSON()).toStrictEqual(entityFound.toJSON());
   });
 
   it("should finds a entity by id", async () => {
@@ -320,5 +311,4 @@ describe("CategorySequelizeRepository integration test", () => {
       );
     });
   });
-
-})
+});

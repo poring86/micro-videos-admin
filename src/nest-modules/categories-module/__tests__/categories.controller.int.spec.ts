@@ -1,20 +1,27 @@
-import { Test, TestingModule } from "@nestjs/testing";
-import { CategoriesController } from "../categories.controller";
-import { DatabaseModule } from "../../database-module/database.module";
+import { Test, TestingModule } from '@nestjs/testing';
+import { ICategoryRepository } from '../../../core/category/domain/category.repository';
+import { CategoriesController } from '../categories.controller';
 import { ConfigModule } from '../../config-module/config.module';
-import { CATEGORY_PROVIDERS } from "../categories.providers";
-import { ICategoryRepository } from "@core/category/domain/category.repository";
-import { CategoriesModule } from "../categories.module";
-import { CreateCategoryUseCase } from "@core/category/application/use-cases/create-category/create-category.usecase";
-import { UpdateCategoryUseCase } from "@core/category/application/use-cases/update-category/update-category.usecase";
-import { ListCategoriesUseCase } from "@core/category/application/use-cases/list-category/list-category.usecase";
-import { GetCategoryUseCase } from "@core/category/application/use-cases/get-category/get-category.usecase";
-import { DeleteCategoryUseCase } from "@core/category/application/use-cases/delete-category/delete-category.usecase";
-import { CreateCategoryFixture, ListCategoriesFixture, UpdateCategoryFixture } from "../testing/category-fixture";
-import { CategoryCollectionPresenter, CategoryPresenter } from "../categories.presenter";
-import { Uuid } from "@core/shared/domain/value-objects/uuid.vo";
-import { CategoryOutputMapper } from "@core/category/application/use-cases/common/category-output";
-import { Category } from "@core/category/domain/category.entity";
+import { DatabaseModule } from '../../database-module/database.module';
+import { CategoriesModule } from '../categories.module';
+import { CATEGORY_PROVIDERS } from '../categories.providers';
+import { CreateCategoryUseCase } from '../../../core/category/application/use-cases/create-category/create-category.use-case';
+import { UpdateCategoryUseCase } from '../../../core/category/application/use-cases/update-category/update-category.use-case';
+import { ListCategoriesUseCase } from '../../../core/category/application/use-cases/list-categories/list-categories.use-case';
+import { GetCategoryUseCase } from '../../../core/category/application/use-cases/get-category/get-category.use-case';
+import { DeleteCategoryUseCase } from '../../../core/category/application/use-cases/delete-category/delete-category.use-case';
+import {
+  CreateCategoryFixture,
+  ListCategoriesFixture,
+  UpdateCategoryFixture,
+} from '../testing/category-fixture';
+import {
+  CategoryCollectionPresenter,
+  CategoryPresenter,
+} from '../categories.presenter';
+import { CategoryOutputMapper } from '../../../core/category/application/use-cases/common/category-output';
+import { Uuid } from '../../../core/shared/domain/value-objects/uuid.vo';
+import { Category } from '../../../core/category/domain/category.entity';
 
 describe('CategoriesController Integration Tests', () => {
   let controller: CategoriesController;
@@ -40,51 +47,57 @@ describe('CategoriesController Integration Tests', () => {
   });
 
   describe('should create a category', () => {
-    const arrange = CreateCategoryFixture.arrangeForCreate()
-
-    test.each(arrange)('when body is $send_data', async ({ send_data, expected }) => {
-      const presenter = await controller.create(send_data)
-      const entity = await repository.findById(new Uuid(presenter.id))
-      expect(entity.toJSON()).toStrictEqual({
-        category_id: presenter.id,
-        created_at: presenter.created_at,
-        ...expected
-      })
-      const output = CategoryOutputMapper.toOutput(entity)
-
-      expect(presenter).toEqual(new CategoryPresenter(output))
-    })
+    const arrange = CreateCategoryFixture.arrangeForCreate();
+    test.each(arrange)(
+      'when body is $send_data',
+      async ({ send_data, expected }) => {
+        const presenter = await controller.create(send_data);
+        const entity = await repository.findById(new Uuid(presenter.id));
+        expect(entity.toJSON()).toStrictEqual({
+          category_id: presenter.id,
+          created_at: presenter.created_at,
+          ...expected,
+        });
+        const output = CategoryOutputMapper.toOutput(entity);
+        expect(presenter).toEqual(new CategoryPresenter(output));
+      },
+    );
   });
 
   describe('should update a category', () => {
+    const arrange = UpdateCategoryFixture.arrangeForUpdate();
 
-    const arrange = UpdateCategoryFixture.arrangeForUpdate()
+    const category = Category.fake().aCategory().build();
 
-    const category = Category.fake().aCategory().build()
     beforeEach(async () => {
-      await repository.insert(category)
-    })
+      await repository.insert(category);
+    });
 
-    test.each(arrange)('when body is $send_data', async ({ send_data, expected }) => {
-      const presenter = await controller.update(category.category_id.id, send_data)
-      const entity = await repository.findById(new Uuid(presenter.id))
-      expect(entity.toJSON()).toStrictEqual({
-        category_id: presenter.id,
-        created_at: presenter.created_at,
-        name: expected.name ?? category.name,
-        description:
-          'description' in expected
-            ? expected.description
-            : category.description,
-        is_active:
-          expected.is_active === true || expected.is_active === false
-            ? expected.is_active
-            : category.is_active,
-      });
-      const output = CategoryOutputMapper.toOutput(entity)
-
-      expect(presenter).toEqual(new CategoryPresenter(output))
-    })
+    test.each(arrange)(
+      'when body is $send_data',
+      async ({ send_data, expected }) => {
+        const presenter = await controller.update(
+          category.category_id.id,
+          send_data,
+        );
+        const entity = await repository.findById(new Uuid(presenter.id));
+        expect(entity.toJSON()).toStrictEqual({
+          category_id: presenter.id,
+          created_at: presenter.created_at,
+          name: expected.name ?? category.name,
+          description:
+            'description' in expected
+              ? expected.description
+              : category.description,
+          is_active:
+            expected.is_active === true || expected.is_active === false
+              ? expected.is_active
+              : category.is_active,
+        });
+        const output = CategoryOutputMapper.toOutput(entity);
+        expect(presenter).toEqual(new CategoryPresenter(output));
+      },
+    );
   });
 
   it('should delete a category', async () => {
@@ -120,7 +133,6 @@ describe('CategoriesController Integration Tests', () => {
         'when send_data is $send_data',
         async ({ send_data, expected }) => {
           const presenter = await controller.search(send_data);
-          console.log('presenter', presenter)
           const { entities, ...paginationProps } = expected;
           expect(presenter).toEqual(
             new CategoryCollectionPresenter({
@@ -154,7 +166,4 @@ describe('CategoriesController Integration Tests', () => {
       );
     });
   });
-
 });
-//agente viu este tipo de teste no curso
-//end to end

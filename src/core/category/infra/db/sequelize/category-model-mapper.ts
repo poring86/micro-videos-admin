@@ -14,7 +14,6 @@ export class CategoryModelMapper {
     });
   }
 
-
   static toEntity(model: CategoryModel): Category {
     const category = new Category({
       category_id: new Uuid(model.category_id),
@@ -23,7 +22,7 @@ export class CategoryModelMapper {
       is_active: model.is_active,
       created_at: model.created_at,
     });
-
+    
     category.validate();
     if (category.notification.hasErrors()) {
       throw new EntityValidationError(category.notification.toJSON());

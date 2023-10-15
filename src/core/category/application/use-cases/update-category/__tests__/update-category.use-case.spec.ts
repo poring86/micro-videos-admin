@@ -1,17 +1,15 @@
 import { NotFoundError } from "../../../../../shared/domain/errors/not-found.error";
-import { InvalidUuidError, Uuid } from "../../../../../shared/domain/value-objects/uuid.vo";
-import { setupSequelize } from "../../../../../shared/infra/testing/herpers";
+import {
+  InvalidUuidError,
+  Uuid,
+} from "../../../../../shared/domain/value-objects/uuid.vo";
 import { Category } from "../../../../domain/category.entity";
 import { CategoryInMemoryRepository } from "../../../../infra/db/in-memory/category-in-memory.repository";
-import { CategoryModel } from "../../../../infra/db/sequelize/category.model";
-import { UpdateCategoryUseCase } from "../update-category.usecase";
+import { UpdateCategoryUseCase } from "../update-category.use-case";
 
-describe('UpdateCategoryUseCase Unit Tests', () => {
-
+describe("UpdateCategoryUseCase Unit Tests", () => {
   let useCase: UpdateCategoryUseCase;
   let repository: CategoryInMemoryRepository;
-
-  setupSequelize({ models: [CategoryModel] });
 
   beforeEach(() => {
     repository = new CategoryInMemoryRepository();
@@ -28,11 +26,24 @@ describe('UpdateCategoryUseCase Unit Tests', () => {
     await expect(() =>
       useCase.execute({ id: uuid.id, name: "fake" })
     ).rejects.toThrow(new NotFoundError(uuid.id, Category));
-  })
+  });
+
+  it('should throw an error when aggregate is not valid', async () => {
+    const aggregate = new Category({ name: 'Movie' });
+    repository.items = [aggregate];
+    await expect(() =>
+      useCase.execute(
+        {
+          id: aggregate.category_id.id,
+          name: 't'.repeat(256),
+        },
+      ),
+    ).rejects.toThrowError('Entity Validation Error');
+  });
 
   it("should update a category", async () => {
-    const spyUpdate = jest.spyOn(repository, "update")
-    const entity = new Category({ name: "Movie" })
+    const spyUpdate = jest.spyOn(repository, "update");
+    const entity = new Category({ name: "Movie" });
     repository.items = [entity];
 
     let output = await useCase.execute({
@@ -63,7 +74,6 @@ describe('UpdateCategoryUseCase Unit Tests', () => {
         created_at: Date;
       };
     };
-
     const arrange: Arrange[] = [
       {
         input: {
@@ -149,6 +159,7 @@ describe('UpdateCategoryUseCase Unit Tests', () => {
         },
       },
     ];
+
     for (const i of arrange) {
       output = await useCase.execute({
         id: i.input.id,
@@ -164,5 +175,5 @@ describe('UpdateCategoryUseCase Unit Tests', () => {
         created_at: i.expected.created_at,
       });
     }
-  })
-})
+  });
+});
