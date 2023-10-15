@@ -7,6 +7,7 @@ import { CategoryCollectionPresenter, CategoryPresenter } from '../categories.pr
 import { GetCategoryOutput } from '@core/category/application/use-cases/get-category/get-category.use-case';
 import { ListCategoriesOutput } from '@core/category/application/use-cases/list-categories/list-categories.use-case';
 import { SortDirection } from '@core/shared/domain/repository/search-params';
+import { UpdateCategoryInput } from '@core/category/application/use-cases/update-category/update-category.input';
 
 describe('CategoriesController Unit Tests', () => {
   let controller: CategoriesController;
