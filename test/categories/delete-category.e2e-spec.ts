@@ -50,6 +50,7 @@ describe('CategoriesController delete (e2e)', () => {
       await expect(
         categoryRepo.findById(category.category_id),
       ).resolves.toBeNull();
+
     });
 
   })
