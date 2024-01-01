@@ -5,6 +5,11 @@ import { ConfigModule } from './nest-modules/config-module/config.module';
 import { SharedModule } from './nest-modules/shared-module/shared.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(), CategoriesModule, DatabaseModule, SharedModule],
+  imports: [
+    ConfigModule.forRoot(),
+    CategoriesModule,
+    DatabaseModule,
+    SharedModule,
+  ],
 })
-export class AppModule { }
+export class AppModule {}

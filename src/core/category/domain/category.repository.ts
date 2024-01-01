@@ -1,14 +1,14 @@
-import { Uuid } from "../../shared/domain/value-objects/uuid.vo";
-import { ISearchableRepository } from "../../shared/domain/repository/repository-interface";
-import { Category } from "./category.aggregate";
-import { SearchResult } from "../../shared/domain/repository/search-result";
-import { SearchParams } from "../../shared/domain/repository/search-params";
+import { Uuid } from '../../shared/domain/value-objects/uuid.vo';
+import { ISearchableRepository } from '../../shared/domain/repository/repository-interface';
+import { Category } from './category.aggregate';
+import { SearchResult } from '../../shared/domain/repository/search-result';
+import { SearchParams } from '../../shared/domain/repository/search-params';
 
 export type CategoryFilter = string;
 
-export class CategorySearchParams extends SearchParams<CategoryFilter> { }
+export class CategorySearchParams extends SearchParams<CategoryFilter> {}
 
-export class CategorySearchResult extends SearchResult<Category> { }
+export class CategorySearchResult extends SearchResult<Category> {}
 
 export interface ICategoryRepository
   extends ISearchableRepository<
@@ -17,4 +17,4 @@ export interface ICategoryRepository
     CategoryFilter,
     CategorySearchParams,
     CategorySearchResult
-  > { }
+  > {}

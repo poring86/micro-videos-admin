@@ -1,20 +1,20 @@
-import { INestApplication } from "@nestjs/common";
-import { AppModule } from "../../../app.module";
-import { Test, TestingModule } from "@nestjs/testing";
+import { INestApplication } from '@nestjs/common';
+import { AppModule } from '../../../app.module';
+import { Test, TestingModule } from '@nestjs/testing';
 import { applyGlobalConfig } from '../../global-config';
-import { Sequelize } from "sequelize";
-import { getConnectionToken } from "@nestjs/sequelize";
+import { Sequelize } from 'sequelize';
+import { getConnectionToken } from '@nestjs/sequelize';
 
 export function startApp() {
-  let _app: INestApplication
+  let _app: INestApplication;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
-    const sequelize = moduleFixture.get<Sequelize>(getConnectionToken())
+    const sequelize = moduleFixture.get<Sequelize>(getConnectionToken());
 
-    await sequelize.sync({ force: true })
+    await sequelize.sync({ force: true });
 
     _app = moduleFixture.createNestApplication();
     applyGlobalConfig(_app);

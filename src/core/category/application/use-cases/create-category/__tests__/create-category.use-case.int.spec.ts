@@ -1,5 +1,5 @@
-import { CategoryInMemoryRepository } from "../../../../infra/db/in-memory/category-in-memory.repository";
-import { CreateCategoryUseCase } from "../create-category.use-case";
+import { CategoryInMemoryRepository } from '../../../../infra/db/in-memory/category-in-memory.repository';
+import { CreateCategoryUseCase } from '../create-category.use-case';
 
 describe('CreateCategoryUseCase Integration Tests', () => {
   let useCase: CreateCategoryUseCase;
@@ -36,4 +36,4 @@ describe('CreateCategoryUseCase Integration Tests', () => {
       created_at: repository.items[1].created_at,
     });
   });
-})
+});

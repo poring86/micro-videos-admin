@@ -41,4 +41,4 @@ const models = [CategoryModel];
     }),
   ],
 })
-export class DatabaseModule { }
+export class DatabaseModule {}

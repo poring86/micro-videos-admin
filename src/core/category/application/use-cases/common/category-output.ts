@@ -1,19 +1,19 @@
-import { Category } from "../../../domain/category.aggregate"
+import { Category } from '../../../domain/category.aggregate';
 
 export type CategoryOutput = {
-  id: string
-  name: string
-  description: string
-  is_active: boolean
-  created_at: Date
-}
+  id: string;
+  name: string;
+  description: string;
+  is_active: boolean;
+  created_at: Date;
+};
 
 export class CategoryOutputMapper {
   static toOutput(entity: Category): CategoryOutput {
-    const { category_id, ...otherProps } = entity.toJSON()
+    const { category_id, ...otherProps } = entity.toJSON();
     return {
-      id: entity.category_id.id,
-      ...otherProps
-    }
+      id: category_id,
+      ...otherProps,
+    };
   }
 }

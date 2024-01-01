@@ -13,7 +13,7 @@ import { CategoryModelMapper } from './category-model-mapper';
 export class CategorySequelizeRepository implements ICategoryRepository {
   sortableFields: string[] = ['name', 'created_at'];
 
-  constructor(private categoryModel: typeof CategoryModel) { }
+  constructor(private categoryModel: typeof CategoryModel) {}
 
   async insert(entity: Category): Promise<void> {
     const modelProps = CategoryModelMapper.toModel(entity);

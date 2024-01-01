@@ -1,7 +1,7 @@
-import { EntityValidationError } from "@core/shared/domain/validators/validation.error";
-import { ArgumentsHost, Catch, ExceptionFilter } from "@nestjs/common";
+import { EntityValidationError } from '@core/shared/domain/validators/validation.error';
+import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common';
 import { Response } from 'express';
-import { union } from 'lodash'
+import { union } from 'lodash';
 
 @Catch(EntityValidationError)
 export class EntityValidationErrorFilter implements ExceptionFilter {
@@ -23,4 +23,3 @@ export class EntityValidationErrorFilter implements ExceptionFilter {
     });
   }
 }
-

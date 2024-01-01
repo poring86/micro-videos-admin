@@ -1,11 +1,8 @@
-
-import { AggregateRoot } from "@core/shared/domain/aggregate-root";
-import { Entity } from "../../shared/domain/entity";
-import { ValueObject } from "../../shared/domain/value-object";
-import { Uuid } from "../../shared/domain/value-objects/uuid.vo";
-import { CategoryFakeBuilder } from "./category-fake.builder";
-import { CategoryValidatorFactory } from "./category.validator";
-
+import { AggregateRoot } from '@core/shared/domain/aggregate-root';
+import { ValueObject } from '../../shared/domain/value-object';
+import { Uuid } from '../../shared/domain/value-objects/uuid.vo';
+import { CategoryFakeBuilder } from './category-fake.builder';
+import { CategoryValidatorFactory } from './category.validator';
 
 export type CategoryConstructorProps = {
   category_id?: CategoryId;
@@ -21,7 +18,7 @@ export type CategoryCreateCommand = {
   is_active?: boolean;
 };
 
-export class CategoryId extends Uuid { }
+export class CategoryId extends Uuid {}
 
 export class Category extends AggregateRoot {
   category_id: CategoryId;

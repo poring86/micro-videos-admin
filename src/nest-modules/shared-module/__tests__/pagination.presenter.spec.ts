@@ -1,5 +1,5 @@
-import { instanceToPlain } from "class-transformer";
-import { PaginationPresenter } from "../pagination.presenter";
+import { instanceToPlain } from 'class-transformer';
+import { PaginationPresenter } from '../pagination.presenter';
 
 describe('PaginationPresenter Unit Tests', () => {
   describe('constructor', () => {
@@ -60,5 +60,5 @@ describe('PaginationPresenter Unit Tests', () => {
         total: 4,
       });
     });
-  })
-})
+  });
+});

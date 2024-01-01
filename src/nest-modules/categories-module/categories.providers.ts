@@ -9,7 +9,6 @@ import { CategorySequelizeRepository } from '../../core/category/infra/db/sequel
 import { CategoryModel } from '../../core/category/infra/db/sequelize/category.model';
 import { ICategoryRepository } from '../../core/category/domain/category.repository';
 
-
 export const REPOSITORIES = {
   CATEGORY_REPOSITORY: {
     provide: 'CategoryRepository',

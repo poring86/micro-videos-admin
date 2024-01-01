@@ -33,12 +33,12 @@ expect.extend({
     return every
       ? { pass: true, message: () => '' }
       : {
-        pass: false,
-        message: () =>
-          `The validation errors not contains ${JSON.stringify(
-            received,
-          )}. Current: ${JSON.stringify(expected.toJSON())}`,
-      };
+          pass: false,
+          message: () =>
+            `The validation errors not contains ${JSON.stringify(
+              received,
+            )}. Current: ${JSON.stringify(expected.toJSON())}`,
+        };
   },
   // containsErrorMessages(expected: Expected, received: FieldsErrors) {
   //   if (typeof expected === "function") {

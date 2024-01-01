@@ -12,7 +12,7 @@ import { UpdateCategoryInput } from './update-category.input';
 export class UpdateCategoryUseCase
   implements IUseCase<UpdateCategoryInput, UpdateCategoryOutput>
 {
-  constructor(private categoryRepo: ICategoryRepository) { }
+  constructor(private categoryRepo: ICategoryRepository) {}
 
   async execute(input: UpdateCategoryInput): Promise<UpdateCategoryOutput> {
     const categoryId = new CategoryId(input.id);

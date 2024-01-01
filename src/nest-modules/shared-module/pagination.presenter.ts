@@ -1,11 +1,11 @@
-import { Transform } from "class-transformer"
+import { Transform } from 'class-transformer';
 
 export type PaginationPresenterProps = {
-  current_page: number
-  per_page: number
-  last_page: number
-  total: number
-}
+  current_page: number;
+  per_page: number;
+  last_page: number;
+  total: number;
+};
 
 export class PaginationPresenter {
   @Transform(({ value }) => parseInt(value))
@@ -18,9 +18,9 @@ export class PaginationPresenter {
   total: number;
 
   constructor(props: PaginationPresenterProps) {
-    this.current_page = props.current_page
-    this.per_page = props.per_page
-    this.last_page = props.last_page
-    this.total = props.total
+    this.current_page = props.current_page;
+    this.per_page = props.per_page;
+    this.last_page = props.last_page;
+    this.total = props.total;
   }
 }

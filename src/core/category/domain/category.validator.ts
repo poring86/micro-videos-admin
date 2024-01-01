@@ -1,14 +1,14 @@
-import { MaxLength } from "class-validator";
-import { Category } from "./category.aggregate";
-import { ClassValidatorFields } from "../../shared/domain/validators/class-validator-fields";
-import { Notification } from "../../shared/domain/validators/notification";
+import { MaxLength } from 'class-validator';
+import { Category } from './category.aggregate';
+import { ClassValidatorFields } from '../../shared/domain/validators/class-validator-fields';
+import { Notification } from '../../shared/domain/validators/notification';
 
 class CategoryRules {
   @MaxLength(255, { groups: ['name'] })
-  name: string
+  name: string;
 
   constructor(entity: Category) {
-    Object.assign(this, entity)
+    Object.assign(this, entity);
   }
 }
 
@@ -21,6 +21,6 @@ export class CategoryValidator extends ClassValidatorFields {
 
 export class CategoryValidatorFactory {
   static create() {
-    return new CategoryValidator()
+    return new CategoryValidator();
   }
 }

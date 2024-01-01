@@ -12,4 +12,4 @@ import { CATEGORY_PROVIDERS } from './categories.providers';
     ...Object.values(CATEGORY_PROVIDERS.USE_CASES),
   ],
 })
-export class CategoriesModule { }
+export class CategoriesModule {}

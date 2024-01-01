@@ -4,7 +4,6 @@ import { EntityValidationErrorFilter } from './entity-validation-error.filter';
 import request from 'supertest';
 import { EntityValidationError } from '@core/shared/domain/validators/validation.error';
 
-
 @Controller('stub')
 class StubController {
   @Get()

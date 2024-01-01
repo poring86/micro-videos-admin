@@ -1,5 +1,3 @@
-import { Entity } from "./entity";
+import { Entity } from './entity';
 
-export abstract class AggregateRoot extends Entity {
-
-}
+export abstract class AggregateRoot extends Entity {}
