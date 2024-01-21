@@ -2,23 +2,28 @@ import { AggregateRoot } from '@core/shared/domain/aggregate-root';
 import { ValueObject } from '@core/shared/domain/value-object';
 import { Uuid } from '@core/shared/domain/value-objects/uuid.vo';
 import { CastMemberType } from './cast-member-type.vo';
+import { CastMemberValidatorFactory } from './cast-member-validator';
+import { CastMemberFakeBuilder } from './cast-member-fake.builder';
 
 export type CastMemberConstructorProps = {
   cast_member_id?: CastMemberId;
   name: string;
+  type: CastMemberType;
   created_at?: Date;
+};
+
+export type CastMemberCreateCommand = {
+  name: string;
   type: CastMemberType;
 };
+
+export class CastMemberId extends Uuid {}
 
 export class CastMember extends AggregateRoot {
   cast_member_id: CastMemberId;
   name: string;
   created_at: Date;
   type: CastMemberType;
-
-  toJSON() {
-    throw new Error('Method not implemented.');
-  }
 
   get entity_id(): ValueObject {
     return this.cast_member_id;
@@ -31,6 +36,37 @@ export class CastMember extends AggregateRoot {
     this.created_at = props.created_at ?? new Date();
     this.type = props.type;
   }
-}
 
-export class CastMemberId extends Uuid {}
+  static create(props: CastMemberCreateCommand): CastMember {
+    const castMember = new CastMember(props);
+    castMember.validate(['name']);
+    return castMember;
+  }
+
+  validate(fields?: string[]) {
+    const validator = CastMemberValidatorFactory.create();
+    return validator.validate(this.notification, this, fields);
+  }
+
+  changeName(name: string): void {
+    this.name = name;
+    this.validate(['name']);
+  }
+
+  changeType(type: CastMemberType): void {
+    this.type = type;
+  }
+
+  static fake() {
+    return CastMemberFakeBuilder;
+  }
+
+  toJSON() {
+    return {
+      cast_member_id: this.cast_member_id.id,
+      name: this.name,
+      type: this.type.type,
+      created_at: this.created_at,
+    };
+  }
+}
