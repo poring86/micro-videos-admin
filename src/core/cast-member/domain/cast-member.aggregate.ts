@@ -1,5 +1,4 @@
 import { AggregateRoot } from '@core/shared/domain/aggregate-root';
-import { ValueObject } from '@core/shared/domain/value-object';
 import { Uuid } from '@core/shared/domain/value-objects/uuid.vo';
 import { CastMemberType } from './cast-member-type.vo';
 import { CastMemberValidatorFactory } from './cast-member-validator';
@@ -25,7 +24,7 @@ export class CastMember extends AggregateRoot {
   created_at: Date;
   type: CastMemberType;
 
-  get entity_id(): ValueObject {
+  get entity_id() {
     return this.cast_member_id;
   }
 
