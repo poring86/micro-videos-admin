@@ -1,12 +1,12 @@
-import { Category } from "@core/category/domain/category.aggregate";
-import { ICategoryRepository } from "@core/category/domain/category.repository";
+import { CategoryOutputMapper } from '@core/category/application/use-cases/common/category-output';
+import { Category } from '@core/category/domain/category.aggregate';
+import { ICategoryRepository } from '@core/category/domain/category.repository';
+import { instanceToPlain } from 'class-transformer';
+import { CategoriesController } from 'src/nest-modules/categories-module/categories.controller';
 import * as CategoryProviders from 'src/nest-modules/categories-module/categories.providers';
-import { startApp } from "src/nest-modules/shared-module/testing/helpers";
+import { GetCategoryFixture } from 'src/nest-modules/categories-module/testing/category-fixture';
+import { startApp } from 'src/nest-modules/shared-module/testing/helpers';
 import request from 'supertest';
-import { GetCategoryFixture } from "src/nest-modules/categories-module/testing/category-fixture";
-import { CategoriesController } from "src/nest-modules/categories-module/categories.controller";
-import { CategoryOutputMapper } from "@core/category/application/use-cases/common/category-output";
-import { instanceToPlain } from "class-transformer";
 
 describe('CategoriesController get (e2e)', () => {
   describe('/categories/:id (GET)', () => {
@@ -38,8 +38,7 @@ describe('CategoriesController get (e2e)', () => {
           .expect(expected.statusCode)
           .expect(expected);
       });
-
-    })
+    });
 
     it('should return a category', async () => {
       const categoryRepo = appHelper.app.get<ICategoryRepository>(
@@ -61,7 +60,6 @@ describe('CategoriesController get (e2e)', () => {
       );
       const serialized = instanceToPlain(presenter);
       expect(res.body.data).toStrictEqual(serialized);
-
     });
-  })
-})
+  });
+});

@@ -1,8 +1,9 @@
 import request from 'supertest';
-import { startApp } from "../../src/nest-modules/shared-module/testing/helpers";
+
 import { ICategoryRepository } from '@core/category/domain/category.repository';
 import * as CategoryProviders from '../../src/nest-modules/categories-module/categories.providers';
 import { Category } from '@core/category/domain/category.aggregate';
+import { startApp } from 'src/nest-modules/shared-module/testing/helpers';
 
 describe('CategoriesController delete (e2e)', () => {
   describe('/delete/:id (DELETE)', () => {
@@ -50,8 +51,6 @@ describe('CategoriesController delete (e2e)', () => {
       await expect(
         categoryRepo.findById(category.category_id),
       ).resolves.toBeNull();
-
     });
-
-  })
-})
+  });
+});

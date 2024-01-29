@@ -1,8 +1,8 @@
-import { AggregateRoot } from '@core/shared/domain/aggregate-root';
-import { Uuid } from '@core/shared/domain/value-objects/uuid.vo';
+import { Uuid } from '../../shared/domain/value-objects/uuid.vo';
+import CastMemberValidatorFactory from './cast-member.validator';
 import { CastMemberType } from './cast-member-type.vo';
-import { CastMemberValidatorFactory } from './cast-member-validator';
 import { CastMemberFakeBuilder } from './cast-member-fake.builder';
+import { AggregateRoot } from '../../shared/domain/aggregate-root';
 
 export type CastMemberConstructorProps = {
   cast_member_id?: CastMemberId;
@@ -21,30 +21,21 @@ export class CastMemberId extends Uuid {}
 export class CastMember extends AggregateRoot {
   cast_member_id: CastMemberId;
   name: string;
-  created_at: Date;
   type: CastMemberType;
-
-  get entity_id() {
-    return this.cast_member_id;
-  }
+  created_at: Date;
 
   constructor(props: CastMemberConstructorProps) {
     super();
     this.cast_member_id = props.cast_member_id ?? new CastMemberId();
     this.name = props.name;
-    this.created_at = props.created_at ?? new Date();
     this.type = props.type;
+    this.created_at = props.created_at ?? new Date();
   }
 
-  static create(props: CastMemberCreateCommand): CastMember {
+  static create(props: CastMemberCreateCommand) {
     const castMember = new CastMember(props);
     castMember.validate(['name']);
     return castMember;
-  }
-
-  validate(fields?: string[]) {
-    const validator = CastMemberValidatorFactory.create();
-    return validator.validate(this.notification, this, fields);
   }
 
   changeName(name: string): void {
@@ -56,8 +47,17 @@ export class CastMember extends AggregateRoot {
     this.type = type;
   }
 
+  validate(fields?: string[]) {
+    const validator = CastMemberValidatorFactory.create();
+    return validator.validate(this.notification, this, fields);
+  }
+
   static fake() {
     return CastMemberFakeBuilder;
+  }
+
+  get entity_id() {
+    return this.cast_member_id;
   }
 
   toJSON() {
