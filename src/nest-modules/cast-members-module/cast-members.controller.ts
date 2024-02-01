@@ -16,13 +16,13 @@ import { SearchCastMemberDto } from './dto/search-cast-members.dto';
 import { CreateCastMemberDto } from './dto/create-cast-member.dto';
 import { UpdateCastMemberDto } from './dto/update-cast-member.dto';
 
-import { UpdateCastMemberInput } from '@core/cast-member/aplication/use-cases/update-cast-member/update-cast-member.input';
-import { ListCastMembersUseCase } from '@core/cast-member/aplication/use-cases/list-cast-members/list-cast-members.use-case';
-import { CastMemberOutput } from '@core/cast-member/aplication/use-cases/common/cast-member-output';
-import { GetCastMemberUseCase } from '@core/cast-member/aplication/use-cases/get-cast-member/get-cast-member.use-case';
-import { DeleteCastMemberUseCase } from '@core/cast-member/aplication/use-cases/delete-cast-member/delete-cast-member.use-case';
-import { UpdateCastMemberUseCase } from '@core/cast-member/aplication/use-cases/update-cast-member/update-cast-member.use-case';
-import { CreateCastMemberUseCase } from '@core/cast-member/aplication/use-cases/create-cast-member/create-cast-member.use-case';
+import { UpdateCastMemberInput } from '@core/cast-member/application/use-cases/update-cast-member/update-cast-member.input';
+import { ListCastMembersUseCase } from '@core/cast-member/application/use-cases/list-cast-members/list-cast-members.use-case';
+import { CastMemberOutput } from '@core/cast-member/application/use-cases/common/cast-member-output';
+import { GetCastMemberUseCase } from '@core/cast-member/application/use-cases/get-cast-member/get-cast-member.use-case';
+import { DeleteCastMemberUseCase } from '@core/cast-member/application/use-cases/delete-cast-member/delete-cast-member.use-case';
+import { UpdateCastMemberUseCase } from '@core/cast-member/application/use-cases/update-cast-member/update-cast-member.use-case';
+import { CreateCastMemberUseCase } from '@core/cast-member/application/use-cases/create-cast-member/create-cast-member.use-case';
 import {
   CastMemberCollectionPresenter,
   CastMemberPresenter,
