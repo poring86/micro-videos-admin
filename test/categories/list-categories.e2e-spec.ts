@@ -55,13 +55,16 @@ describe('CategoriesController (e2e)', () => {
         await categoryRepo.bulkInsert(Object.values(entitiesMap));
       });
 
-      test.each([arrange[0]])(
+      test.each([arrange])(
         'when query params is $send_data',
         async ({ send_data, expected }) => {
           const queryParams = new URLSearchParams(send_data as any).toString();
           return request(nestApp.app.getHttpServer())
             .get(`/categories/?${queryParams}`)
             .expect(200)
+            .expect((res) => {
+              console.log(`res.body`, res.body);
+            })
             .expect({
               data: expected.entities.map((e) =>
                 instanceToPlain(
