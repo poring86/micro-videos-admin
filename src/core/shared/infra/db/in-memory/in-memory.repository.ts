@@ -1,15 +1,16 @@
-import { Entity } from '../../../domain/entity';
-import { NotFoundError } from '../../../domain/errors/not-found.error';
-import { ValueObject } from '../../../domain/value-object';
+import { Entity } from '@core/shared/domain/entity';
+import { InvalidArgumentError } from '@core/shared/domain/errors/invalid-argument.error';
+import { NotFoundError } from '@core/shared/domain/errors/not-found.error';
 import {
   IRepository,
   ISearchableRepository,
-} from '../../../domain/repository/repository-interface';
+} from '@core/shared/domain/repository/repository-interface';
 import {
   SearchParams,
   SortDirection,
-} from '../../../domain/repository/search-params';
-import { SearchResult } from '../../../domain/repository/search-result';
+} from '@core/shared/domain/repository/search-params';
+import { SearchResult } from '@core/shared/domain/repository/search-result';
+import { ValueObject } from '@core/shared/domain/value-object';
 
 export abstract class InMemoryRepository<
   E extends Entity,
@@ -48,6 +49,41 @@ export abstract class InMemoryRepository<
 
   async findAll(): Promise<E[]> {
     return this.items;
+  }
+
+  async findByIds(ids: EntityId[]): Promise<E[]> {
+    //avoid to return repeated items
+    return this.items.filter((entity) => {
+      return ids.some((id) => entity.entity_id.equals(id));
+    });
+  }
+
+  async existsById(
+    ids: EntityId[],
+  ): Promise<{ exists: EntityId[]; not_exists: EntityId[] }> {
+    if (!ids.length) {
+      throw new InvalidArgumentError(
+        'ids must be an array with at least one element',
+      );
+    }
+
+    if (this.items.length === 0) {
+      return {
+        exists: [],
+        not_exists: ids,
+      };
+    }
+
+    const existsId = new Set<EntityId>();
+    const notExistsId = new Set<EntityId>();
+    ids.forEach((id) => {
+      const item = this.items.find((entity) => entity.entity_id.equals(id));
+      item ? existsId.add(id) : notExistsId.add(id);
+    });
+    return {
+      exists: Array.from(existsId.values()),
+      not_exists: Array.from(notExistsId.values()),
+    };
   }
 
   abstract getEntity(): new (...args: any[]) => E;
@@ -109,7 +145,6 @@ export abstract class InMemorySearchableRepository<
 
     return [...items].sort((a, b) => {
       const aValue = custom_getter ? custom_getter(sort, a) : a[sort];
-
       const bValue = custom_getter ? custom_getter(sort, b) : b[sort];
       if (aValue < bValue) {
         return sort_dir === 'asc' ? -1 : 1;

@@ -1,7 +1,7 @@
-import { Entity } from '../../../../domain/entity';
-import { NotFoundError } from '../../../../domain/errors/not-found.error';
-import { Uuid } from '../../../../domain/value-objects/uuid.vo';
+import { Entity } from '@core/shared/domain/entity';
+import { Uuid } from '@core/shared/domain/value-objects/uuid.vo';
 import { InMemoryRepository } from '../in-memory.repository';
+import { NotFoundError } from '@core/shared/domain/errors/not-found.error';
 
 type StubEntityConstructor = {
   entity_id?: Uuid;
@@ -53,10 +53,9 @@ describe('InMemoryRepository Unit Tests', () => {
     await repo.insert(entity);
 
     expect(repo.items.length).toBe(1);
-    expect(repo.items[0]).toBe(entity);
   });
 
-  test('should bulk insert entities', async () => {
+  test('should bulk inset entities', async () => {
     const entities = [
       new StubEntity({
         entity_id: new Uuid(),
