@@ -1,11 +1,11 @@
 import request from 'supertest';
-import { CreateGenreFixture } from 'src/nest-modules/genre-module/testing/genre-fixture';
+import { CreateGenreFixture } from 'src/nest-modules/genres-module/testing/genre-fixture';
 import { startApp } from 'src/nest-modules/shared-module/testing/helpers';
 import { IGenreRepository } from '@core/genre/domain/genre.repository';
 import { ICategoryRepository } from '@core/category/domain/category.repository';
-import { GENRES_PROVIDERS } from 'src/nest-modules/genre-module/genres.providers';
+import { GENRES_PROVIDERS } from 'src/nest-modules/genres-module/genres.providers';
 import { CATEGORY_PROVIDERS } from 'src/nest-modules/categories-module/categories.providers';
-import { GenresController } from 'src/nest-modules/genre-module/genres.controller';
+import { GenresController } from 'src/nest-modules/genres-module/genres.controller';
 import { GenreId } from '@core/genre/domain/genre.aggregate';
 import { GenreOutputMapper } from '@core/genre/application/use-cases/common/genre-output';
 import { instanceToPlain } from 'class-transformer';
