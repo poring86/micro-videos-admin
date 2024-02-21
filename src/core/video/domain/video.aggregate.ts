@@ -12,6 +12,8 @@ import { VideoMedia } from './video-media.vo';
 import { AudioVideoMediaStatus } from '@core/shared/domain/value-objects/audio-video-media.vo';
 import VideoValidatorFactory from './video.validator';
 import { VideoFakeBuilder } from './video-fake.builder';
+import { VideoCreatedEvent } from './domain-events/video-created.event';
+import { VideoAudioMediaReplaced } from './domain-events/video-audio-media-replaced.event';
 
 export type VideoConstructorProps = {
   video_id?: VideoId;
@@ -99,6 +101,15 @@ export class Video extends AggregateRoot {
     this.genres_id = props.genres_id;
     this.cast_members_id = props.cast_members_id;
     this.created_at = props.created_at ?? new Date();
+
+    this.registerHandler(
+      VideoCreatedEvent.name,
+      this.onVideoCreated.bind(this),
+    );
+    this.registerHandler(
+      VideoAudioMediaReplaced.name,
+      this.onAudioVideoMediaReplaced.bind(this),
+    );
   }
 
   static create(props: VideoCreateCommand) {
@@ -221,6 +232,35 @@ export class Video extends AggregateRoot {
       throw new Error('Cast Members id is empty');
     }
     this.cast_members_id = new Map(castMembersId.map((id) => [id.id, id]));
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  onVideoCreated(_event: VideoCreatedEvent) {
+    if (this.is_published) {
+      return;
+    }
+
+    this.tryMarkAsPublished();
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  onAudioVideoMediaReplaced(_event: VideoAudioMediaReplaced) {
+    if (this.is_published) {
+      return;
+    }
+
+    this.tryMarkAsPublished();
+  }
+
+  private tryMarkAsPublished() {
+    if (
+      this.trailer &&
+      this.video &&
+      this.trailer.status === AudioVideoMediaStatus.COMPLETED &&
+      this.video.status === AudioVideoMediaStatus.COMPLETED
+    ) {
+      this.is_published = true;
+    }
   }
 
   validate(fields?: string[]) {
