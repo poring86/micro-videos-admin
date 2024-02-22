@@ -1,11 +1,11 @@
-import { NotFoundError } from '../../../../../shared/domain/errors/not-found.error';
-import { CastMemberTypes } from '../../../../domain/cast-member-type.vo';
+import { CastMemberInMemoryRepository } from '@core/cast-member/infra/db/in-memory/cast-member-in-memory.repository';
+import { GetCastMemberUseCase } from '../get-cast-member.use-case';
 import {
   CastMember,
   CastMemberId,
-} from '../../../../domain/cast-member.aggregate';
-import { CastMemberInMemoryRepository } from '../../../../infra/db/in-memory/cast-member-in-memory.repository';
-import { GetCastMemberUseCase } from '../get-cast-member.use-case';
+} from '@core/cast-member/domain/cast-member.aggregate';
+import { NotFoundError } from '@core/shared/domain/errors/not-found.error';
+import { CastMemberTypes } from '@core/cast-member/domain/cast-member-type.vo';
 
 describe('GetCastMemberUseCase Unit Tests', () => {
   let useCase: GetCastMemberUseCase;

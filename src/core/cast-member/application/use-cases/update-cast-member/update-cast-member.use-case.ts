@@ -1,17 +1,17 @@
-import { IUseCase } from '../../../../shared/application/use-case.interface';
-import { NotFoundError } from '../../../../shared/domain/errors/not-found.error';
-import { EntityValidationError } from '../../../../shared/domain/validators/validation.error';
-import { CastMemberType } from '../../../domain/cast-member-type.vo';
+import { ICastMemberRepository } from '@core/cast-member/domain/cast-member.repository';
+import { UpdateCastMemberInput } from './update-cast-member.input';
+import { IUseCase } from '@core/shared/application/use-case.interface';
 import {
   CastMember,
   CastMemberId,
-} from '../../../domain/cast-member.aggregate';
-import { ICastMemberRepository } from '../../../domain/cast-member.repository';
+} from '@core/cast-member/domain/cast-member.aggregate';
+import { NotFoundError } from '@core/shared/domain/errors/not-found.error';
+import { CastMemberType } from '@core/cast-member/domain/cast-member-type.vo';
+import { EntityValidationError } from '@core/shared/domain/validators/validation.error';
 import {
   CastMemberOutput,
   CastMemberOutputMapper,
 } from '../common/cast-member-output';
-import { UpdateCastMemberInput } from './update-cast-member.input';
 
 export class UpdateCastMemberUseCase
   implements IUseCase<UpdateCastMemberInput, UpdateCastMemberOutput>

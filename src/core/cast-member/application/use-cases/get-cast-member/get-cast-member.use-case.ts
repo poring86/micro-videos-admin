@@ -1,10 +1,10 @@
-import { IUseCase } from '../../../../shared/application/use-case.interface';
-import { NotFoundError } from '../../../../shared/domain/errors/not-found.error';
 import {
   CastMember,
   CastMemberId,
-} from '../../../domain/cast-member.aggregate';
-import { ICastMemberRepository } from '../../../domain/cast-member.repository';
+} from '@core/cast-member/domain/cast-member.aggregate';
+import { ICastMemberRepository } from '@core/cast-member/domain/cast-member.repository';
+import { IUseCase } from '@core/shared/application/use-case.interface';
+import { NotFoundError } from '@core/shared/domain/errors/not-found.error';
 import {
   CastMemberOutput,
   CastMemberOutputMapper,

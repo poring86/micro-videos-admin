@@ -1,6 +1,6 @@
-import { SearchInput } from '../../../../shared/application/search-input';
-import { SortDirection } from '../../../../shared/domain/repository/search-params';
-import { CastMemberTypes } from '../../../domain/cast-member-type.vo';
+import { CastMemberTypes } from '@core/cast-member/domain/cast-member-type.vo';
+import { SearchInput } from '@core/shared/application/search-input';
+import { SortDirection } from '@core/shared/domain/repository/search-params';
 import { IsInt, ValidateNested, validateSync } from 'class-validator';
 
 export class ListCastMembersFilter {

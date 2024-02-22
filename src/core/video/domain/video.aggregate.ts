@@ -122,6 +122,27 @@ export class Video extends AggregateRoot {
     });
     video.validate(['title']);
     video.markAsPublished();
+    video.applyEvent(
+      new VideoCreatedEvent({
+        video_id: video.video_id,
+        title: video.title,
+        description: video.description,
+        year_launched: video.year_launched,
+        duration: video.duration,
+        rating: video.rating,
+        is_opened: video.is_opened,
+        is_published: video.is_published,
+        banner: video.banner,
+        thumbnail: video.thumbnail,
+        thumbnail_half: video.thumbnail_half,
+        trailer: video.trailer,
+        video: video.video,
+        categories_id: Array.from(video.categories_id.values()),
+        genres_id: Array.from(video.genres_id.values()),
+        cast_members_id: Array.from(video.cast_members_id.values()),
+        created_at: video.created_at,
+      }),
+    );
 
     return video;
   }
@@ -169,12 +190,24 @@ export class Video extends AggregateRoot {
 
   replaceTrailer(trailer: Trailer): void {
     this.trailer = trailer;
-    this.markAsPublished();
+    this.applyEvent(
+      new VideoAudioMediaReplaced({
+        aggregate_id: this.video_id,
+        media: trailer,
+        media_type: 'trailer',
+      }),
+    );
   }
 
   replaceVideo(video: VideoMedia): void {
     this.video = video;
-    this.markAsPublished();
+    this.applyEvent(
+      new VideoAudioMediaReplaced({
+        aggregate_id: this.video_id,
+        media: video,
+        media_type: 'video',
+      }),
+    );
   }
 
   private markAsPublished() {

@@ -1,3 +1,4 @@
+import { CastMemberTypes } from '@core/cast-member/domain/cast-member-type.vo';
 import {
   IsInt,
   IsNotEmpty,
@@ -5,7 +6,6 @@ import {
   IsString,
   validateSync,
 } from 'class-validator';
-import { CastMemberTypes } from '../../../domain/cast-member-type.vo';
 
 export type UpdateCastMemberInputConstructorProps = {
   id: string;

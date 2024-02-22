@@ -1,14 +1,14 @@
-import { GetCastMemberUseCase } from '../get-cast-member.use-case';
-import { setupSequelize } from '../../../../../shared/infra/testing/helpers';
-import {
-  CastMember,
-  CastMemberId,
-} from '../../../../domain/cast-member.aggregate';
-import { NotFoundError } from '../../../../../shared/domain/errors/not-found.error';
 import {
   CastMemberModel,
   CastMemberSequelizeRepository,
-} from '../../../../infra/db/sequelize/cast-member-sequelize';
+} from '@core/cast-member/infra/db/sequelize/cast-member-sequelize';
+import { GetCastMemberUseCase } from '../get-cast-member.use-case';
+import { setupSequelize } from '@core/shared/infra/testing/helpers';
+import {
+  CastMember,
+  CastMemberId,
+} from '@core/cast-member/domain/cast-member.aggregate';
+import { NotFoundError } from '@core/shared/domain/errors/not-found.error';
 
 describe('GetCastMemberUseCase Integration Tests', () => {
   let useCase: GetCastMemberUseCase;

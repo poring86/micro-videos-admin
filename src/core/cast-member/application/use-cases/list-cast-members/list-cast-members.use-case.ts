@@ -1,18 +1,18 @@
+import { IUseCase } from '@core/shared/application/use-case.interface';
+import { ListCastMembersInput } from './list-cast-members.input';
+import {
+  CastMemberSearchParams,
+  CastMemberSearchResult,
+  ICastMemberRepository,
+} from '@core/cast-member/domain/cast-member.repository';
 import {
   CastMemberOutput,
   CastMemberOutputMapper,
 } from '../common/cast-member-output';
-import { IUseCase } from '../../../../shared/application/use-case.interface';
 import {
   PaginationOutput,
   PaginationOutputMapper,
-} from '../../../../shared/application/pagination-output';
-import {
-  ICastMemberRepository,
-  CastMemberSearchParams,
-  CastMemberSearchResult,
-} from '../../../domain/cast-member.repository';
-import { ListCastMembersInput } from './list-cast-members.input';
+} from '@core/shared/application/pagination-output';
 
 export class ListCastMembersUseCase
   implements IUseCase<ListCastMembersInput, ListCastMembersOutput>
