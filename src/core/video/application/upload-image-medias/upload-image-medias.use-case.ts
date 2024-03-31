@@ -1,42 +1,67 @@
-import {
-  IsIn,
-  IsNotEmpty,
-  IsString,
-  ValidateNested,
-  validateSync,
-} from 'class-validator';
-import { FileMediaInput } from '../common/file-media.input';
+import { IStorage } from '@core/shared/application/storage.interface';
+import { IUseCase } from '@core/shared/application/use-case.interface';
+import { IUnitOfWork } from '@core/shared/domain/repository/unit-of-work.interface';
+import { IVideoRepository } from '@core/video/domain/video.repository';
+import { UploadImageMediasInput } from './upload-image-medias.input';
+import { Video, VideoId } from '@core/video/domain/video.aggregate';
+import { Banner } from '@core/video/domain/banner.vo';
+import { Thumbnail } from '@core/video/domain/thumbnail.vo';
+import { ThumbnailHalf } from '@core/video/domain/thumbnail-half.vo';
+import { EntityValidationError } from '@core/shared/domain/validators/validation.error';
+import { NotFoundError } from '@core/shared/domain/errors/not-found.error';
 
-export type UploadImageMediasInputConstructorProps = {
-  video_id: string;
-  field: string; //banner, thumbnail, thumbnail_half
-  file: FileMediaInput;
-};
+export class UploadImageMediasUseCase
+  implements IUseCase<UploadImageMediasInput, UploadImageMediasOutput>
+{
+  constructor(
+    private uow: IUnitOfWork,
+    private videoRepo: IVideoRepository,
+    private storage: IStorage,
+  ) {}
 
-export class UploadImageMediasInput {
-  //@IsUUID('4', { each: true })
-  @IsString()
-  @IsNotEmpty()
-  video_id: string;
+  async execute(
+    input: UploadImageMediasInput,
+  ): Promise<UploadImageMediasOutput> {
+    const videoId = new VideoId(input.video_id);
+    const video = await this.videoRepo.findById(videoId);
 
-  @IsIn(['banner', 'thumbnail', 'thumbnail_half'])
-  @IsNotEmpty()
-  field: 'banner' | 'thumbnail' | 'thumbnail_half'; //banner, thumbnail, thumbnail_half
+    if (!video) {
+      throw new NotFoundError(input.video_id, Video);
+    }
 
-  @ValidateNested()
-  file: FileMediaInput;
+    const imagesMap = {
+      banner: Banner,
+      thumbnail: Thumbnail,
+      thumbnail_half: ThumbnailHalf,
+    };
 
-  constructor(props: UploadImageMediasInput) {
-    if (!props) return;
+    const [image, errorImage] = imagesMap[input.field]
+      .createFromFile({
+        ...input.file,
+        video_id: videoId,
+      })
+      .asArray();
 
-    this.video_id = props.video_id;
-    this.field = props.field;
-    this.file = props.file;
+    if (errorImage) {
+      throw new EntityValidationError([
+        { [input.field]: [errorImage.message] },
+      ]);
+    }
+
+    image instanceof Banner && video.replaceBanner(image);
+    image instanceof Thumbnail && video.replaceThumbnail(image);
+    image instanceof ThumbnailHalf && video.replaceThumbnailHalf(image);
+
+    await this.storage.store({
+      data: input.file.data,
+      mime_type: input.file.mime_type,
+      id: image.url,
+    });
+
+    await this.uow.do(async () => {
+      await this.videoRepo.update(video);
+    });
   }
 }
 
-export class ValidateUploadImageMediasInput {
-  static validate(input: UploadImageMediasInput) {
-    return validateSync(input);
-  }
-}
+export type UploadImageMediasOutput = void;
