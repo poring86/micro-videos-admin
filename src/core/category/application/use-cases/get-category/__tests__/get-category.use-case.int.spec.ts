@@ -1,10 +1,10 @@
-import { NotFoundError } from '../../../../../shared/domain/errors/not-found.error';
-import { Uuid } from '../../../../../shared/domain/value-objects/uuid.vo';
-import { setupSequelize } from '../../../../../shared/infra/testing/herpers';
-import { Category } from '../../../../domain/category.aggregate';
-import { CategorySequelizeRepository } from '../../../../infra/db/sequelize/category-sequelize.repository';
-import { CategoryModel } from '../../../../infra/db/sequelize/category.model';
+import { setupSequelize } from '@core/shared/infra/testing/helpers';
 import { GetCategoryUseCase } from '../get-category.use-case';
+import { Uuid } from '@core/shared/domain/value-objects/uuid.vo';
+import { NotFoundError } from '@core/shared/domain/errors/not-found.error';
+import { CategorySequelizeRepository } from '@core/category/infra/db/sequelize/category-sequelize.repository';
+import { CategoryModel } from '@core/category/infra/db/sequelize/category.model';
+import { Category } from '@core/category/domain/category.aggregate';
 
 describe('GetCategoryUseCase Integration Tests', () => {
   let useCase: GetCategoryUseCase;

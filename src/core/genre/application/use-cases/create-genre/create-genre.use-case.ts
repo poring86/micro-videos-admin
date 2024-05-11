@@ -3,10 +3,11 @@ import { IUnitOfWork } from '@core/shared/domain/repository/unit-of-work.interfa
 import { CreateGenreInput } from './create-genre.input';
 import { IGenreRepository } from '@core/genre/domain/genre.repository';
 import { ICategoryRepository } from '@core/category/domain/category.repository';
-import { CategoriesIdExistsInStorageValidator } from '@core/category/application/validations/categories-ids-exists-in-storage.validator';
+
 import { Genre } from '@core/genre/domain/genre.aggregate';
 import { EntityValidationError } from '@core/shared/domain/validators/validation.error';
 import { GenreOutput, GenreOutputMapper } from '../common/genre-output';
+import { CategoriesIdExistsInDatabaseValidator } from '@core/category/application/validations/categories-ids-exists-in-database.validator';
 
 export class CreateGenreUseCase
   implements IUseCase<CreateGenreInput, CreateGenreOutput>
@@ -15,7 +16,7 @@ export class CreateGenreUseCase
     private uow: IUnitOfWork,
     private genreRepo: IGenreRepository,
     private categoryRepo: ICategoryRepository,
-    private categoriesIdExistsInStorage: CategoriesIdExistsInStorageValidator,
+    private categoriesIdExistsInStorage: CategoriesIdExistsInDatabaseValidator,
   ) {}
 
   async execute(input: CreateGenreInput): Promise<CreateGenreOutput> {
