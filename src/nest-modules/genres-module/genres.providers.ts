@@ -13,6 +13,7 @@ import { UpdateGenreUseCase } from '@core/genre/application/use-cases/update-gen
 import { ListGenresUseCase } from '@core/genre/application/use-cases/list-genres/list-genres.use-case';
 import { GetGenreUseCase } from '@core/genre/application/use-cases/get-genre/get-genre.use-case';
 import { DeleteGenreUseCase } from '@core/genre/application/use-cases/delete-genre/delete-genre.use-case';
+import { GenresIdExistsInDatabaseValidator } from '@core/genre/application/validations/genres-ids-exists-in-database.validator';
 
 export const REPOSITORIES = {
   GENRE_REPOSITORY: {
@@ -114,7 +115,18 @@ export const USE_CASES = {
   },
 };
 
+export const VALIDATIONS = {
+  GENRES_IDS_EXISTS_IN_DATABASE_VALIDATOR: {
+    provide: CategoriesIdExistsInDatabaseValidator,
+    useFactory: (genreRepo: IGenreRepository) => {
+      return new GenresIdExistsInDatabaseValidator(genreRepo);
+    },
+    inject: [REPOSITORIES.GENRE_REPOSITORY.provide],
+  },
+};
+
 export const GENRES_PROVIDERS = {
   REPOSITORIES,
   USE_CASES,
+  VALIDATIONS,
 };

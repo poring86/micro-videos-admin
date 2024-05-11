@@ -10,6 +10,7 @@ import { UpdateCastMemberUseCase } from '@core/cast-member/application/use-cases
 import { ListCastMembersUseCase } from '@core/cast-member/application/use-cases/list-cast-members/list-cast-members.use-case';
 import { GetCastMemberUseCase } from '@core/cast-member/application/use-cases/get-cast-member/get-cast-member.use-case';
 import { DeleteCastMemberUseCase } from '@core/cast-member/application/use-cases/delete-cast-member/delete-cast-member.use-case';
+import { CastMembersIdExistsInDatabaseValidator } from '@core/cast-member/validations/cast-members-ids-exists-in-database.validator';
 
 export const REPOSITORIES = {
   CAST_MEMBER_REPOSITORY: {
@@ -67,7 +68,18 @@ export const USE_CASES = {
   },
 };
 
+export const VALIDATIONS = {
+  CAST_MEMBERS_IDS_EXISTS_IN_DATABASE_VALIDATOR: {
+    provide: CastMembersIdExistsInDatabaseValidator,
+    useFactory: (castMemberRepo: ICastMemberRepository) => {
+      return new CastMembersIdExistsInDatabaseValidator(castMemberRepo);
+    },
+    inject: [REPOSITORIES.CAST_MEMBER_REPOSITORY.provide],
+  },
+};
+
 export const CAST_MEMBERS_PROVIDERS = {
   REPOSITORIES,
   USE_CASES,
+  VALIDATIONS,
 };
