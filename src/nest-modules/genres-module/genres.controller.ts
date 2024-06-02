@@ -42,6 +42,7 @@ export class GenresController {
 
   @Post()
   async create(@Body() createGenreDto: CreateGenreDto) {
+    console.log('createGenreDto', createGenreDto);
     const output = await this.createUseCase.execute(createGenreDto);
     return GenresController.serialize(output);
   }

@@ -6,7 +6,6 @@ import {
 import Joi from 'joi';
 import { join } from 'path';
 
-//@ts-expect-error - the type is correct
 const joiJson = Joi.extend((joi) => {
   return {
     type: 'object',

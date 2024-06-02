@@ -9,7 +9,10 @@ export class CategoriesIdExistsInDatabaseValidator {
   async validate(
     categories_id: string[],
   ): Promise<Either<CategoryId[], NotFoundError[]>> {
+    console.log('batataaaa');
     const categoriesId = categories_id.map((v) => new CategoryId(v));
+
+    console.log('categoriesId aaaaaaaa', categoriesId);
 
     const existsResult = await this.categoryRepo.existsById(categoriesId);
     return existsResult.not_exists.length > 0

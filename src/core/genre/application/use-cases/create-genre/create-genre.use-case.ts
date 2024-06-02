@@ -24,6 +24,10 @@ export class CreateGenreUseCase
       await this.categoriesIdExistsInStorage.validate(input.categories_id)
     ).asArray();
 
+    console.log('input.categories_id', input.categories_id);
+    console.log('errorsCategoriesIds', errorsCategoriesIds);
+    console.log('categoriesId', categoriesId);
+
     const { name, is_active } = input;
 
     const entity = Genre.create({

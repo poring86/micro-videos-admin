@@ -9,6 +9,7 @@ export class GenresIdExistsInDatabaseValidator {
   async validate(
     genres_id: string[],
   ): Promise<Either<GenreId[], NotFoundError[]>> {
+    console.log('goiabaaa');
     const genresId = genres_id.map((v) => new GenreId(v));
 
     const existsResult = await this.genreRepo.existsById(genresId);
