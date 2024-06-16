@@ -1,6 +1,6 @@
-import { OnEvent } from '@nestjs/event-emitter';
-import { IIntegrationEventHandler } from '../domain-event-handler.interface';
+import { IIntegrationEventHandler } from '@core/shared/application/domain-event-handler.interface';
 import { VideoAudioMediaUploadedIntegrationEvent } from '@core/video/domain/domain-events/video-audio-media-replaced.event';
+import { OnEvent } from '@nestjs/event-emitter';
 
 export class PublishVideoMediaReplacedInQueueHandler
   implements IIntegrationEventHandler
