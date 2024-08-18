@@ -13,7 +13,7 @@ import { GenresModule } from '../genres-module/genres.module';
 import { CastMembersModule } from '../cast-members-module/cast-members.module';
 import { VIDEOS_PROVIDERS } from './videos.providers';
 import { VideosController } from './videos.controller';
-import { RabbitmqModule } from '../rabbitmq/rabbitmq.module';
+import { RabbitmqModule } from '../rabbitmq-module/rabbitmq.module';
 import { VideosConsumers } from './videos.consumers';
 
 @Module({

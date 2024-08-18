@@ -27,7 +27,7 @@ import { Sequelize } from 'sequelize-typescript';
 import { EVENTS_MESSAGE_BROKER_CONFIG } from '../../../core/shared/infra/message-broker/events-message-broker-config';
 import { ChannelWrapper } from 'amqp-connection-manager';
 import { ConsumeMessage } from 'amqplib';
-import { RabbitmqModule } from 'src/nest-modules/rabbitmq/rabbitmq.module';
+import { RabbitmqModule } from 'src/nest-modules/rabbitmq-module/rabbitmq.module';
 import { DatabaseModule } from 'src/nest-modules/database-module/database.module';
 import { UnitOfWorkSequelize } from '@core/shared/infra/db/sequelize/unit-of-work-sequelize';
 import { VideoAudioMediaUploadedIntegrationEvent } from '@core/video/domain/domain-events/video-audio-media-replaced.event';

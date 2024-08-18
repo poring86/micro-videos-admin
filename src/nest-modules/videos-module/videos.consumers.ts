@@ -4,7 +4,7 @@ import { ProcessAudioVideoMediasUseCase } from '@core/video/application/use-case
 import { RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
 import { Injectable, UseFilters, ValidationPipe } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
-import { RabbitmqConsumeErrorFilter } from '../rabbitmq/rabbitmq-consume-error/rabbitmq-consume-error.filter';
+import { RabbitmqConsumeErrorFilter } from '../rabbitmq-module/rabbitmq-consume-error/rabbitmq-consume-error.filter';
 
 @UseFilters(RabbitmqConsumeErrorFilter)
 @Injectable()

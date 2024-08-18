@@ -40,12 +40,6 @@ export class RabbitmqConsumeErrorFilter implements ExceptionFilter {
     const ctx = host.switchToRpc();
     const message: ConsumeMessage = ctx.getContext();
 
-    console.log('RabbitMQConsumeErrorFilter - Exception: ', exception);
-    console.log(
-      'RabbitMQConsumeErrorFilter - Retry Count',
-      message.properties.headers[RabbitmqConsumeErrorFilter.RETRY_COUNT_HEADER],
-    );
-
     if (this.shouldRetry(message.properties.headers)) {
       await this.retry(message);
     } else {
