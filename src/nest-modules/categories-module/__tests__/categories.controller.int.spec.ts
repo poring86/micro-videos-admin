@@ -20,8 +20,11 @@ import {
   CategoryPresenter,
 } from '../categories.presenter';
 import { CategoryOutputMapper } from '../../../core/category/application/use-cases/common/category-output';
-import { Uuid } from '../../../core/shared/domain/value-objects/uuid.vo';
-import { Category } from '../../../core/category/domain/category.aggregate';
+import {
+  Category,
+  CategoryId,
+} from '../../../core/category/domain/category.aggregate';
+import { AuthModule } from 'src/nest-modules/auth-module/auth.module';
 
 describe('CategoriesController Integration Tests', () => {
   let controller: CategoriesController;
@@ -29,7 +32,12 @@ describe('CategoriesController Integration Tests', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule.forRoot(), DatabaseModule, CategoriesModule],
+      imports: [
+        ConfigModule.forRoot(),
+        DatabaseModule,
+        AuthModule,
+        CategoriesModule,
+      ],
     }).compile();
     controller = module.get<CategoriesController>(CategoriesController);
     repository = module.get<ICategoryRepository>(
@@ -52,13 +60,13 @@ describe('CategoriesController Integration Tests', () => {
       'when body is $send_data',
       async ({ send_data, expected }) => {
         const presenter = await controller.create(send_data);
-        const entity = await repository.findById(new Uuid(presenter.id));
-        expect(entity.toJSON()).toStrictEqual({
+        const entity = await repository.findById(new CategoryId(presenter.id));
+        expect(entity!.toJSON()).toStrictEqual({
           category_id: presenter.id,
           created_at: presenter.created_at,
           ...expected,
         });
-        const output = CategoryOutputMapper.toOutput(entity);
+        const output = CategoryOutputMapper.toOutput(entity!);
         expect(presenter).toEqual(new CategoryPresenter(output));
       },
     );
@@ -80,8 +88,8 @@ describe('CategoriesController Integration Tests', () => {
           category.category_id.id,
           send_data,
         );
-        const entity = await repository.findById(new Uuid(presenter.id));
-        expect(entity.toJSON()).toStrictEqual({
+        const entity = await repository.findById(new CategoryId(presenter.id));
+        expect(entity!.toJSON()).toStrictEqual({
           category_id: presenter.id,
           created_at: presenter.created_at,
           name: expected.name ?? category.name,
@@ -94,7 +102,7 @@ describe('CategoriesController Integration Tests', () => {
               ? expected.is_active
               : category.is_active,
         });
-        const output = CategoryOutputMapper.toOutput(entity);
+        const output = CategoryOutputMapper.toOutput(entity!);
         expect(presenter).toEqual(new CategoryPresenter(output));
       },
     );
