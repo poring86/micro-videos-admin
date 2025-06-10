@@ -16,10 +16,10 @@ Este projeto adota os princípios de:
 ## 🚀 Tecnologias
 
 - **Node.js** + **TypeScript**
-- **Express.js** (ou outro framework HTTP leve)
+- **Nestjs**
 - **RabbitMQ**: mensageria assíncrona entre serviços
 - **Docker & Docker Compose**
-- **PostgreSQL** (ou MySQL)
+- **MySQL**
 - **Jest** + **Supertest**: testes automatizados (unitários e de integração)
 - **ESLint** + **Prettier**: padronização de código
 - **CI/CD-ready**: estrutura preparada para integração contínua
